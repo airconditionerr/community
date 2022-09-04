@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 必须的 meta 标签 -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap 的 CSS 文件 -->
+    <link rel="stylesheet" th:href=@{css/bootstrap.min.css} >
+    <title>Hello, world!</title>
+    <style rel="stylesheet">
+        body{
+            background-color: rgb(243,244,239);
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-light navbar-expand-lg" style="background-color: rgb(243,244,239);">
+    <div class="container-fluid">
+
+
+
+        <!-- left start -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <a class="navbar-brand" href="#">
+                <img th:src="@{img/logo.jpg}" alt="" width="30" height="30">
+                AirConditioner Community
+            </a>
+            <form class="d-flex justify-content-end" role="search">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+
+        </div>
+        <!-- left end -->
+
+
+        <!-- right start -->
+        <ul class="nav nav-pills justify-content-end">
+            <li class="nav-item">
+                <a class="nav-link" href="#">Sign up</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Log in</a>
+            </li>
+        </ul>
+        <!-- right end -->
+    </div>
+</nav>
+
+<script th:src=@{js/bootstrap.bundle.min.js} type="application/javascript"></script>
+</body>
+</html>
