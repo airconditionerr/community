@@ -3,10 +3,15 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airconditioner.community.mapper.UserMapper">
-    <insert id="insert" parameterType="com.airconditioner.community.bean.User">
+
+    <insert id="registerByGithub" parameterType="com.airconditioner.community.bean.User">
         insert into user
             (name, account_id, token, gmt_create, gmt_modified)
         values
             (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified})
     </insert>
+
+    <select id="findUserByToken" resultType="com.airconditioner.community.bean.User">
+        select * from user where token = #{token}
+    </select>
 </mapper>

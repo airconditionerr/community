@@ -9,5 +9,7 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface UserMapper {
-    void insert(User user);
+    void registerByGithub(User user);
+
+    User findUserByToken(String token);
 }

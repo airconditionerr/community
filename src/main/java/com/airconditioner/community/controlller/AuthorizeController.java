@@ -13,7 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.net.HttpCookie;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -43,7 +46,8 @@ public class AuthorizeController {
     @GetMapping("/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam("state") String state,
-                           HttpSession session) {
+                           HttpSession session,
+                           HttpServletResponse response) {
         TempCodeDTO tempCodeDTO = new TempCodeDTO(clientId, client_secret, code, redirect_uri, state);
         AccessTokenDTO accessTokenDTO = githubProvider.getAccessToken(tempCodeDTO);
         log.info("accessToken:" + accessTokenDTO.getAccess_token());
@@ -51,20 +55,22 @@ public class AuthorizeController {
         GithubUser githubUser = githubProvider.getGithubUser(accessTokenDTO);
         log.info("githubUser.name:" + githubUser.getName());
         if (githubUser != null){
+            // 登录成功 => cookie & session
             User user = new User();
-            user.setToken(UUID.randomUUID().toString());
+            String token = UUID.randomUUID().toString();
+            user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setGmtCreate(new Timestamp(System.currentTimeMillis()));
             user.setGmtModified(user.getGmtCreate());
-            userMapper.insert(user);
+            userMapper.registerByGithub(user);
 
-            // 登录成功 => cookie & session
-            session.setAttribute("githubUser", githubUser);
-            return "redirect:index";
+            response.addCookie(new Cookie("token", token));
+
+            return "redirect:/";
         } else {
             // 登陆失败
-            return "redirect:index";
+            return "redirect:/";
         }
     }
 
