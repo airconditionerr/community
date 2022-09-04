@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
- * @Author AirConditoner
+ * @Author AirConditioner
  * @Date 2022/9/3 16:17
  **/
 @Controller
