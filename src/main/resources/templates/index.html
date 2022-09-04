@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Bootstrap 的 CSS 文件 -->
     <link rel="stylesheet" th:href=@{css/bootstrap.min.css} >
-    <title>Hello, world!</title>
+    <title>Index</title>
     <style rel="stylesheet">
         body{
             background-color: rgb(243,244,239);
@@ -34,7 +34,7 @@
 
 
         <!-- right start -->
-        <ul class="nav nav-pills justify-content-end">
+        <ul class="nav nav-pills justify-content-end" th:unless="${session.githubUser != null}">
             <li class="nav-item">
                 <a class="nav-link" href="#">Sign up</a>
             </li>
@@ -43,6 +43,7 @@
                    href="https://github.com/login/oauth/authorize?client_id=07321f78eebe9dfe4011&redirect_uri=http://localhost:8888/callback&scope=user&state=1">Log in</a>
             </li>
         </ul>
+
         <!-- right end -->
     </div>
 </nav>
