@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:fragment="common-header">
+        <!-- 必须的 meta 标签 -->
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- Bootstrap 的 CSS 文件 -->
+        <link rel="stylesheet" th:href=@{css/bootstrap.min.css}>
+        <!-- Bootstrap 的 JS 文件 -->
+        <script th:src=@{js/bootstrap.bundle.min.js} type="text/javascript"></script>
+    </div>
+</head>
+<body>
+    <!-- navbar -->
+    <nav th:fragment="common-navbar" class="navbar navbar-expand-lg navbar-light" style="background-color: rgb(243,244,239);">
+        <div class="container-fluid">
+            <!-- Logo & Title -->
+            <a class="navbar-brand" href="#">
+                <img th:src="@{img/logo.jpg}" alt="" width="30" height="30">
+                AirConditioner Community
+            </a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                <!-- left start -->
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+                <!-- left end -->
+
+                <!-- right start (before login) -->
+                <ul class="nav nav-pills ms-auto" th:if="${session.user == null}">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Sign up</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active"
+                           href="https://github.com/login/oauth/authorize?client_id=07321f78eebe9dfe4011&redirect_uri=http://localhost:8888/callback&scope=user&state=1">Log
+                            in</a>
+                    </li>
+                </ul>
+                <!-- right end (before login) -->
+
+                <!-- right start (after login) -->
+                <div class="dropdown ms-auto" th:if="${session.user != null}">
+                    <button class="btn btn-secondary dropdown-toggle"
+                            type="button"
+                            id="dropdownMenuButton"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                        Dropdown button
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    </ul>
+                </div>
+                <!-- right end (before login) -->
+
+            </div>
+        </div>
+    </nav>
+</body>
+</html>
