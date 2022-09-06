@@ -2,6 +2,7 @@ package com.airconditioner.community.service.impl;
 
 import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.bean.User;
+import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.dto.QuestionDTO;
 import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.mapper.UserMapper;
@@ -27,10 +28,29 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper questionMapper;
 
     @Override
-    public List<QuestionDTO> getQuestionList() {
-        List<Question> questionList = questionMapper.getQuestionList();
+    public PaginationDTO getQuestionList(Integer page, Integer size) {
+        // 分页DTO 集合
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalCount = questionMapper.questionCount();
+        paginationDTO.setPagination(totalCount, page, size);
+
+        if (page < 1) {
+            page = 1;
+        }
+        if (page > paginationDTO.getTotalPage()) {
+            page = paginationDTO.getTotalPage();
+        }
+
+
+        Integer offset = size * (page - 1);
+        // 问题 集合
+        List<Question> questionList = questionMapper.getQuestionList(offset, size);
+        // 问题DTO 集合
         List<QuestionDTO> questionDTOList = new ArrayList<>();
-        for (Question question: questionList){
+
+
+        // 向 问题DTO 中加入 问题DTO
+        for (Question question : questionList) {
             User user = userMapper.findUserById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
@@ -38,6 +58,8 @@ public class QuestionServiceImpl implements QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        return questionDTOList;
+        paginationDTO.setQuestionDTOList(questionDTOList);
+
+        return paginationDTO;
     }
 }

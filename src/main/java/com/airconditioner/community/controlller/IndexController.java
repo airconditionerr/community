@@ -2,6 +2,7 @@ package com.airconditioner.community.controlller;
 
 import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.bean.User;
+import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.dto.QuestionDTO;
 import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.mapper.UserMapper;
@@ -33,7 +34,9 @@ public class IndexController {
     @GetMapping("/")
     public String index(HttpServletRequest request,
                         HttpSession session,
-                        Model model){
+                        Model model,
+                        @RequestParam(name = "page", defaultValue = "1") Integer page,
+                        @RequestParam(name = "size", defaultValue = "5") Integer size){
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {
             for (Cookie cookie : cookies) {
@@ -49,8 +52,8 @@ public class IndexController {
         }
 
 
-        List<QuestionDTO> questionDTOList = questionService.getQuestionList();
-        model.addAttribute("questionDTOList", questionDTOList);
+        PaginationDTO paginationDTO = questionService.getQuestionList(page, size);
+        model.addAttribute("paginationDTO", paginationDTO);
 
 
         return "index";

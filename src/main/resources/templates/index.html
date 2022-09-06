@@ -19,7 +19,7 @@
             <hr>
 
             <!-- Media object -->
-            <div class="d-flex" th:each="questionDTO : ${questionDTOList}">
+            <div class="d-flex" th:each="questionDTO : ${paginationDTO.questionDTOList}">
                 <!-- Image -->
                 <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                      alt="John Doe"
@@ -35,6 +35,44 @@
                 </div>
             </div>
             <!-- Media object -->
+
+            <!-- Pagination start -->
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                    <li class="page-item" th:if="${paginationDTO.showFirstPage}">
+                        <a class="page-link" th:href="@{/?page=1}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;&lt;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:if="${paginationDTO.showPrevious}">
+                        <a class="page-link" th:href="@{/(page=${paginationDTO.page - 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&lt;</span>
+                        </a>
+                    </li>
+
+
+                    <li th:each="page : ${paginationDTO.pages}" class="page-item"
+                        th:class="${paginationDTO.page == page ? 'active': ''}">
+                        <a class="page-link"
+                           th:href="@{/(page=${page})}"
+                           th:text="${page}"
+                           >
+                        </a>
+                    </li>
+
+                    <li class="page-item" th:if="${paginationDTO.showNext}">
+                        <a class="page-link" th:href="@{/(page=${paginationDTO.page + 1})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;</span>
+                        </a>
+                    </li>
+                    <li class="page-item" th:if="${paginationDTO.showEndPage}">
+                        <a class="page-link" th:href="@{/(page=${paginationDTO.totalPage})}" aria-label="Previous">
+                            <span aria-hidden="true">&gt;&gt;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- Pagination end -->
 
         </div>
         <!-- Left end -->

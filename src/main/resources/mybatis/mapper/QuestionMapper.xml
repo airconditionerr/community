@@ -12,8 +12,11 @@
     </insert>
 
     <select id="getQuestionList" resultType="com.airconditioner.community.bean.Question">
-        select * from question
+        select * from question limit #{offset}, #{size}
     </select>
 
+    <select id="questionCount" resultType="Integer">
+        select count(*) from question
+    </select>
 
 </mapper>

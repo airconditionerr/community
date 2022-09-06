@@ -14,6 +14,7 @@ public interface QuestionMapper {
 
     public void publishQuestion(Question question);
 
+    List<Question> getQuestionList(Integer offset, Integer size);
 
-    List<Question> getQuestionList();
+    Integer questionCount();
 }

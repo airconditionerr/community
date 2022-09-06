@@ -1,14 +1,12 @@
 package com.airconditioner.community.service;
 
-import com.airconditioner.community.dto.QuestionDTO;
-
-import java.util.List;
+import com.airconditioner.community.dto.PaginationDTO;
 
 /**
  * @Author AirConditioner
  * @Date 2022/9/6 15:29
  **/
 public interface QuestionService {
-    List<QuestionDTO> getQuestionList();
+    PaginationDTO getQuestionList(Integer page, Integer size);
 
 }
