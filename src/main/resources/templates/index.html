@@ -2,9 +2,49 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Index</title>
+    <link th:href="@{assets/fontawesome/css/brands.css}" rel="stylesheet">
+    <link th:href="@{assets/fontawesome/css/fontawesome.css}" rel="stylesheet">
+    <link th:href="@{assets/fontawesome/css/solid.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{css/index.css}">
     <div th:include="common :: common-header"></div>
 </head>
 <body>
-    <nav th:replace="common :: common-navbar"></nav>
+<nav th:replace="common :: common-navbar"></nav>
+<div class="container-fluid main">
+    <div class="row">
+        <!-- Left start -->
+
+        <div class="col-lg-9 col-md-12 col-sm-12 col-12">
+            <h2><i class="fa-solid fa-list-ul"></i> 发现</h2>
+            <hr>
+
+            <!-- Media object -->
+            <div class="d-flex" th:each="questionDTO : ${questionDTOList}">
+                <!-- Image -->
+                <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                     alt="John Doe"
+                     class="me-3 rounded-circle"/>
+                <!-- Body -->
+                <div>
+                    <h7 class="fw-bold">
+                        John Doe
+                        <small class="text-muted" th:text="${questionDTO.title}"></small>
+                    </h7>
+                    <p class="text-desc"
+                       th:text="${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' + ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}"></p>
+                </div>
+            </div>
+            <!-- Media object -->
+
+        </div>
+        <!-- Left end -->
+
+        <!-- right start -->
+        <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+            <h3>热门话题</h3>
+        </div>
+        <!-- right end -->
+    </div>
+</div>
 </body>
 </html>

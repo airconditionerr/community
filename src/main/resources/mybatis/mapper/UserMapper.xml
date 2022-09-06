@@ -14,4 +14,10 @@
     <select id="findUserByToken" resultType="com.airconditioner.community.bean.User">
         select * from user where token = #{token}
     </select>
+
+    <select id="findUserById" resultType="com.airconditioner.community.bean.User">
+        select * from user where id = #{id}
+    </select>
+
+
 </mapper>

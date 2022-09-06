@@ -12,4 +12,6 @@ public interface UserMapper {
     void registerByGithub(User user);
 
     User findUserByToken(String token);
+
+    User findUserById(Integer id);
 }

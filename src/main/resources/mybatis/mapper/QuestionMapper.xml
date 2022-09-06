@@ -11,5 +11,9 @@
             (#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{creator}, #{tag})
     </insert>
 
+    <select id="getQuestionList" resultType="com.airconditioner.community.bean.Question">
+        select * from question
+    </select>
+
 
 </mapper>

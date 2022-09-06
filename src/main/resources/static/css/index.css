@@ -1,0 +1,14 @@
+.main{
+    margin: 30px;
+}
+
+img{
+    width: 38px;
+    height: 38px;
+}
+
+.text-desc{
+    font-size: 12px;
+    font-weight: normal;
+    color: #999;
+}
