@@ -8,17 +8,20 @@ import java.sql.Timestamp;
 
 /**
  * @Author AirConditioner
- * @Date 2022/9/4 15:58
+ * @Date 2022/9/5 15:53
  **/
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Question {
     private Integer id;
-    private String accountId;
-    private String name;
-    private String token;
+    private String title;
+    private String description;
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
-
+    private Integer creator;
+    private Integer commentCount;
+    private Integer viewCount;
+    private Integer followCount;
+    private String tag;
 }

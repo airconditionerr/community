@@ -26,17 +26,18 @@ public class IndexController {
     public String index(HttpServletRequest request,
                         HttpSession session){
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie : cookies){
-            if (cookie.getName().equals("token")){
-                String token = cookie.getValue();
-                User user = userMapper.findUserByToken(token);
-                if (user != null){
-                    session.setAttribute("user", user);
+        if (cookies != null && cookies.length != 0) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    String token = cookie.getValue();
+                    User user = userMapper.findUserByToken(token);
+                    if (user != null) {
+                        session.setAttribute("user", user);
+                    }
+                    break;
                 }
-                break;
             }
         }
-
 
 
 

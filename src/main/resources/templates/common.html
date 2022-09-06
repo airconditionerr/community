@@ -30,6 +30,14 @@
                 </form>
                 <!-- left end -->
 
+                <ul class="nav nav-pills ms-auto" th:if="${session.user != null}">
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/publish}">发布</a>
+                    </li>
+
+                </ul>
+
+
                 <!-- right start (before login) -->
                 <ul class="nav nav-pills ms-auto" th:if="${session.user == null}">
                     <li class="nav-item">
@@ -49,13 +57,13 @@
                             type="button"
                             id="dropdownMenuButton"
                             data-bs-toggle="dropdown"
-                            aria-expanded="false">
-                        Dropdown button
+                            aria-expanded="false"
+                            th:text="${session.user.getName()}">
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        <li><a class="dropdown-item" href="#">消息中心</a></li>
+                        <li><a class="dropdown-item" href="#">个人资料</a></li>
+                        <li><a class="dropdown-item" href="#">退出登录</a></li>
                     </ul>
                 </div>
                 <!-- right end (before login) -->
