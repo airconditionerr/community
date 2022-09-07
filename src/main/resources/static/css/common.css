@@ -1,8 +1,11 @@
 .main{
-    margin: 30px;
+    padding-left: 12px;
+    padding-right: 12px;
+    margin-left: 300px;
+    margin-right: 300px;
 }
 
-img{
+.avatar{
     width: 38px;
     height: 38px;
 }

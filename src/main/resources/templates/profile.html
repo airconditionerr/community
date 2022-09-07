@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${sectionName}"></title>
+    <div th:include="common :: common-header"></div>
+</head>
+<body>
+<nav th:replace="common :: common-navbar"></nav>
+
+<div class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Left start -->
+
+            <div class="col-lg-9 col-md-12 col-sm-12 col-12">
+                <h2>[[${secitonName}]]</h2>
+                <hr>
+
+                <!-- Media object -->
+                <!--<div class="d-flex" th:each="questionDTO : ${paginationDTO.questionDTOList}">-->
+                <!--    &lt;!&ndash; Image &ndash;&gt;-->
+                <!--    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"-->
+                <!--         alt="John Doe"-->
+                <!--         class="me-3 rounded-circle avatar"/>-->
+                <!--    &lt;!&ndash; Body &ndash;&gt;-->
+                <!--    <div>-->
+                <!--        <h7 class="fw-bold">-->
+                <!--            John Doe-->
+                <!--            <small class="text-muted" th:text="${questionDTO.title}"></small>-->
+                <!--        </h7>-->
+                <!--        <p class="text-desc"-->
+                <!--           th:text="${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' + ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}"></p>-->
+                <!--    </div>-->
+                <!--</div>-->
+                <!-- Media object -->
+
+                <!-- Pagination start -->
+                <!--<nav aria-label="Page navigation example">-->
+                <!--    <ul class="pagination">-->
+                <!--        <li class="page-item" th:if="${paginationDTO.showFirstPage}">-->
+                <!--            <a class="page-link" th:href="@{/?page=1}" aria-label="Previous">-->
+                <!--                <span aria-hidden="true">&lt;&lt;</span>-->
+                <!--            </a>-->
+                <!--        </li>-->
+                <!--        <li class="page-item" th:if="${paginationDTO.showPrevious}">-->
+                <!--            <a class="page-link" th:href="@{/(page=${paginationDTO.page - 1})}" aria-label="Previous">-->
+                <!--                <span aria-hidden="true">&lt;</span>-->
+                <!--            </a>-->
+                <!--        </li>-->
+
+
+                <!--        <li th:each="page : ${paginationDTO.pages}" class="page-item"-->
+                <!--            th:class="${paginationDTO.page == page ? 'active': ''}">-->
+                <!--            <a class="page-link"-->
+                <!--               th:href="@{/(page=${page})}"-->
+                <!--               th:text="${page}"-->
+                <!--            >-->
+                <!--            </a>-->
+                <!--        </li>-->
+
+                <!--        <li class="page-item" th:if="${paginationDTO.showNext}">-->
+                <!--            <a class="page-link" th:href="@{/(page=${paginationDTO.page + 1})}" aria-label="Previous">-->
+                <!--                <span aria-hidden="true">&gt;</span>-->
+                <!--            </a>-->
+                <!--        </li>-->
+                <!--        <li class="page-item" th:if="${paginationDTO.showEndPage}">-->
+                <!--            <a class="page-link" th:href="@{/(page=${paginationDTO.totalPage})}" aria-label="Previous">-->
+                <!--                <span aria-hidden="true">&gt;&gt;</span>-->
+                <!--            </a>-->
+                <!--        </li>-->
+                <!--    </ul>-->
+                <!--</nav>-->
+                <!-- Pagination end -->
+
+            </div>
+            <!-- Left end -->
+
+            <!-- right start -->
+            <div class="col-lg-3 col-md-12 col-sm-12 col-12">
+                <h3>热门话题</h3>
+            </div>
+            <!-- right end -->
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
