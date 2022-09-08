@@ -9,4 +9,5 @@ import com.airconditioner.community.dto.PaginationDTO;
 public interface QuestionService {
     PaginationDTO getQuestionList(Integer page, Integer size);
 
+    PaginationDTO getQuestionList(Integer userId, Integer page, Integer size);
 }

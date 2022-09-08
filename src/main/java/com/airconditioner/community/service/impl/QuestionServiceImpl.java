@@ -28,20 +28,72 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper questionMapper;
 
     @Override
-    public PaginationDTO getQuestionList(Integer page, Integer size) {
+    public PaginationDTO getQuestionList(Integer userId, Integer page, Integer size) {
         // 分页DTO 集合
         PaginationDTO paginationDTO = new PaginationDTO();
-        Integer totalCount = questionMapper.questionCount();
-        paginationDTO.setPagination(totalCount, page, size);
+
+
+        Integer totalPage;
+        Integer totalCount = questionMapper.questionCountByUserId(userId);
+
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
 
         if (page < 1) {
             page = 1;
         }
-        if (page > paginationDTO.getTotalPage()) {
-            page = paginationDTO.getTotalPage();
+        if (page > totalPage) {
+            page = totalPage;
         }
 
+        paginationDTO.setPagination(totalPage, page);
 
+
+        Integer offset = size * (page - 1);
+        // 问题 集合
+        List<Question> questionList = questionMapper.getQuestionListByUserId(userId, offset, size);
+        // 问题DTO 集合
+        List<QuestionDTO> questionDTOList = new ArrayList<>();
+
+
+        // 向 问题DTO 中加入 问题DTO
+        for (Question question : questionList) {
+            User user = userMapper.findUserById(question.getCreator());
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(question, questionDTO);
+            questionDTO.setUser(user);
+            questionDTOList.add(questionDTO);
+        }
+
+        paginationDTO.setQuestionDTOList(questionDTOList);
+
+        return paginationDTO;
+    }
+
+    @Override
+    public PaginationDTO getQuestionList(Integer page, Integer size) {
+        // 分页DTO 集合
+        PaginationDTO paginationDTO = new PaginationDTO();
+        Integer totalPage;
+        Integer totalCount = questionMapper.questionCount();
+
+        if (totalCount % size == 0) {
+            totalPage = totalCount / size;
+        } else {
+            totalPage = totalCount / size + 1;
+        }
+
+        if (page < 1) {
+            page = 1;
+        }
+        if (page > totalPage) {
+            page = totalPage;
+        }
+
+        paginationDTO.setPagination(totalPage, page);
         Integer offset = size * (page - 1);
         // 问题 集合
         List<Question> questionList = questionMapper.getQuestionList(offset, size);
