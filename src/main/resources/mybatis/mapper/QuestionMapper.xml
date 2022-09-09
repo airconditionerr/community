@@ -10,6 +10,15 @@
         values (#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{creator}, #{tag})
     </insert>
 
+    <update id="editQuestion">
+        update question
+        set title       = #{title},
+            description = #{description},
+            tag         = #{tag},
+            gmt_modified = #{gmtModified}
+        where id = #{id}
+    </update>
+
     <select id="getQuestionList" resultType="com.airconditioner.community.bean.Question">
         select *
         from question limit #{offset}, #{size}

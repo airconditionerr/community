@@ -14,7 +14,9 @@
                 <h2><i class="fa-regular fa-square-plus"></i> 发起</h2>
                 <hr>
 
-                <form action="/publish" method="post">
+                <form th:action="${id == null ? '/publish': '/publish/' + id}" method="post">
+                    <!--<input type="hidden" name="id" th:value="${id}">-->
+                    <input type="hidden" name="_method" value="put" th:if="${id != null}">
                     <div class="mb-3">
                         <label for="title" class="form-label">问题标题（简单扼要）</label>
                         <input type="text" class="form-control" id="title" name="title" th:value="${title}"

@@ -23,4 +23,6 @@ public interface QuestionMapper {
     Integer questionCountByUserId(Integer userId);
 
     Question getQuestionById(Integer id);
+
+    void editQuestion(Question question);
 }
