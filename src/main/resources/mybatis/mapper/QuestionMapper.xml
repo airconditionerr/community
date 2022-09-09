@@ -19,6 +19,10 @@
         select * from question where creator = #{userId} limit #{offset}, #{size}
     </select>
 
+    <select id="getQuestionById" resultType="com.airconditioner.community.bean.Question">
+        select * from question where id = #{id}
+    </select>
+
     <select id="questionCount" resultType="Integer">
         select count(*) from question
     </select>
@@ -26,5 +30,4 @@
     <select id="questionCountByUserId" resultType="Integer">
         select count(*) from question where creator = #{userId}
     </select>
-
 </mapper>

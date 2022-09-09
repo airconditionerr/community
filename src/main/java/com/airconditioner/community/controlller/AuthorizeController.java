@@ -6,12 +6,14 @@ import com.airconditioner.community.dto.GithubUser;
 import com.airconditioner.community.dto.TempCodeDTO;
 import com.airconditioner.community.mapper.UserMapper;
 import com.airconditioner.community.provider.GithubProvider;
+import com.airconditioner.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.standard.expression.GreaterOrEqualToExpression;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -42,10 +44,12 @@ public class AuthorizeController {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/callback")
     public String callback(@RequestParam("code") String code,
                            @RequestParam("state") String state,
-                           HttpSession session,
                            HttpServletResponse response) {
         TempCodeDTO tempCodeDTO = new TempCodeDTO(clientId, client_secret, code, redirect_uri, state);
         AccessTokenDTO accessTokenDTO = githubProvider.getAccessToken(tempCodeDTO);
@@ -60,10 +64,8 @@ public class AuthorizeController {
             user.setToken(token);
             user.setName(githubUser.getName());
             user.setAccountId(String.valueOf(githubUser.getId()));
-            user.setGmtCreate(new Timestamp(System.currentTimeMillis()));
-            user.setGmtModified(user.getGmtCreate());
-            userMapper.registerByGithub(user);
 
+            userService.loginByGithub(user);
             response.addCookie(new Cookie("token", token));
 
             return "redirect:/";
@@ -71,6 +73,17 @@ public class AuthorizeController {
             // 登陆失败
             return "redirect:/";
         }
+    }
+
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session,
+                         HttpServletResponse response){
+        session.removeAttribute("user");
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 
 

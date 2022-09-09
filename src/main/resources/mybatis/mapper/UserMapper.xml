@@ -4,20 +4,37 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airconditioner.community.mapper.UserMapper">
 
-    <insert id="registerByGithub" parameterType="com.airconditioner.community.bean.User">
+    <insert id="insertByGithub" parameterType="com.airconditioner.community.bean.User">
         insert into user
             (name, account_id, token, gmt_create, gmt_modified)
-        values
-            (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified})
+        values (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified})
     </insert>
 
     <select id="findUserByToken" resultType="com.airconditioner.community.bean.User">
-        select * from user where token = #{token}
+        select *
+        from user
+        where token = #{token}
     </select>
 
     <select id="findUserById" resultType="com.airconditioner.community.bean.User">
-        select * from user where id = #{id}
+        select *
+        from user
+        where id = #{id}
     </select>
+
+    <select id="findUserByAccountId" resultType="com.airconditioner.community.bean.User">
+        select *
+        from user
+        where account_id = #{accountId}
+    </select>
+
+    <update id="updateByGithub">
+        update user
+        set name         = #{name},
+            token        = #{token},
+            gmt_modified = #{gmtModified}
+        where account_id = #{accountId}
+    </update>
 
 
 </mapper>

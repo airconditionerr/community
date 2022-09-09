@@ -21,4 +21,6 @@ public interface QuestionMapper {
     List<Question> getQuestionListByUserId(Integer userId, Integer offset, Integer size);
 
     Integer questionCountByUserId(Integer userId);
+
+    Question getQuestionById(Integer id);
 }
