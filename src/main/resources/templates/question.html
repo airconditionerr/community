@@ -14,12 +14,14 @@
             <div class="col-lg-9 col-md-12 col-sm-12 col-12">
                 <h2>[[${questionDTO.title}]]</h2>
                 <div>
-                    <p class="text-desc" th:text="'作者：' + ${questionDTO.user.name} + ' | 发布时间：' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')} + ' | 阅读数：' + ${questionDTO.viewCount}"></p>
+                    <p class="text-desc"
+                       th:text="'作者：' + ${questionDTO.user.name} + ' | 发布时间：' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')} + ' | 阅读数：' + ${questionDTO.viewCount}"></p>
                 </div>
                 <hr>
                 <div class="col-lg-12 col-md-12 col-sm-12 col-12" th:text="${questionDTO.description}"></div>
                 <hr>
-                <a th:href="@{'/publish/' + ${questionDTO.id}}" th:if="${session.user != null && session.user.id == questionDTO.creator}">
+                <a th:href="@{'/publish/' + ${questionDTO.id}}"
+                   th:if="${session.user != null && session.user.id == questionDTO.creator}">
                     <i class="fa-solid fa-pencil"></i>
                     编辑
                 </a>

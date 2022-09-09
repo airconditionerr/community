@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void loginByGithub(User user) {
         User dbUser = userMapper.findUserByAccountId(user.getAccountId());
-        if (dbUser == null){
+        if (dbUser == null) {
             // 插入
             user.setGmtCreate(new Timestamp(System.currentTimeMillis()));
             user.setGmtModified(user.getGmtCreate());

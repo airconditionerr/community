@@ -1,25 +1,25 @@
-.main{
+.main {
     padding-left: 12px;
     padding-right: 12px;
     margin-left: 300px;
     margin-right: 300px;
 }
 
-.avatar{
+.avatar {
     width: 38px;
     height: 38px;
 }
 
-.text-desc{
+.text-desc {
     font-size: 12px;
     font-weight: normal;
     color: #999;
 }
 
-.badges{
+.badges {
     margin-left: 174px;
 }
 
-.section{
+.section {
     margin-top: 15px;
 }

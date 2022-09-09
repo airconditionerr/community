@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 public class GithubProvider {
-    public AccessTokenDTO getAccessToken(TempCodeDTO tempCodeDTO){
+    public AccessTokenDTO getAccessToken(TempCodeDTO tempCodeDTO) {
         MediaType mediaType = MediaType.get("application/json; charset=utf-8");
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .connectTimeout(100000, TimeUnit.MILLISECONDS)
@@ -41,7 +41,7 @@ public class GithubProvider {
         return null;
     }
 
-    public GithubUser getGithubUser(AccessTokenDTO accessTokenDTO){
+    public GithubUser getGithubUser(AccessTokenDTO accessTokenDTO) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
                 .url("https://api.github.com/user")

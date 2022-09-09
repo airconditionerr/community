@@ -17,15 +17,18 @@
                 <form action="/publish" method="post">
                     <div class="mb-3">
                         <label for="title" class="form-label">问题标题（简单扼要）</label>
-                        <input type="text" class="form-control" id="title" name="title" th:value="${title}" placeholder="问题标题……">
+                        <input type="text" class="form-control" id="title" name="title" th:value="${title}"
+                               placeholder="问题标题……">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">问题补充（必填，请参照右侧提示）</label>
-                        <textarea name="description" id="description" th:text="${description}" class="form-control" cols="30" rows="10"></textarea>
+                        <textarea name="description" id="description" th:text="${description}" class="form-control"
+                                  cols="30" rows="10"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="tag" class="form-label">添加标签：</label>
-                        <input type="text" class="form-control" id="tag" name="tag" th:value="${tag}" placeholder="输入标签，以，分隔">
+                        <input type="text" class="form-control" id="tag" name="tag" th:value="${tag}"
+                               placeholder="输入标签，以，分隔">
                     </div>
 
                     <div class="container-fluid">

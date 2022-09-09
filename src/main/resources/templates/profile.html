@@ -44,7 +44,8 @@
                             </a>
                         </li>
                         <li class="page-item" th:if="${paginationDTO.showPrevious}">
-                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.page - 1})}" aria-label="Previous">
+                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.page - 1})}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&lt;</span>
                             </a>
                         </li>
@@ -60,12 +61,14 @@
                         </li>
 
                         <li class="page-item" th:if="${paginationDTO.showNext}">
-                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.page + 1})}" aria-label="Previous">
+                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.page + 1})}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&gt;</span>
                             </a>
                         </li>
                         <li class="page-item" th:if="${paginationDTO.showEndPage}">
-                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.totalPage})}" aria-label="Previous">
+                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.totalPage})}"
+                               aria-label="Previous">
                                 <span aria-hidden="true">&gt;&gt;</span>
                             </a>
                         </li>
