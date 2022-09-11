@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Index</title>
+    <div th:include="common :: common-header"></div>
+</head>
+<body>
+<!-- navbar start -->
+<nav th:replace="common :: common-navbar"></nav>
+<!-- navbar end -->
+
+
+<div class="main">
+    <div class="container-fluid">
+        <div class="row">
+            <h1>出错啦！！！</h1>
+            <p th:text="${message}">服务太热啦，们要不然稍等下再来试试</p>
+            <p><a class="btn bg-primary btn-lg" th:href="@{/}" role="button">回到主页</a></p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

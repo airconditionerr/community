@@ -2,6 +2,8 @@ package com.airconditioner.community.controlller;
 
 import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.bean.User;
+import com.airconditioner.community.exception.CustomizeErrorCode;
+import com.airconditioner.community.exception.CustomizeException;
 import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ public class PublishController {
     @GetMapping("/publish/{id}")
     public String toEdit(@PathVariable("id") Integer id,
                          Model model) {
-        Question question = questionMapper.getQuestionById(id);
+        Question question = questionMapper.selectQuestionById(id);
         model.addAttribute("title", question.getTitle());
         model.addAttribute("description", question.getDescription());
         model.addAttribute("tag", question.getTag());
@@ -80,7 +82,7 @@ public class PublishController {
         question.setGmtCreate(new Timestamp(System.currentTimeMillis()));
         question.setGmtModified(new Timestamp(System.currentTimeMillis()));
 
-        questionMapper.publishQuestion(question);
+        questionMapper.insertQuestion(question);
         return "redirect:/";
     }
 
@@ -126,7 +128,10 @@ public class PublishController {
         question.setGmtModified(new Timestamp(System.currentTimeMillis()));
         question.setId(id);
 
-        questionMapper.editQuestion(question);
+        int updateNum = questionMapper.updateQuestion(question);
+        if (updateNum != 1){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         return "redirect:/";
     }
 

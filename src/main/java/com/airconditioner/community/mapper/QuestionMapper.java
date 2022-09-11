@@ -12,17 +12,17 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper {
 
-    public void publishQuestion(Question question);
+    public void insertQuestion(Question question);
 
-    List<Question> getQuestionList(Integer offset, Integer size);
+    List<Question> selectQuestionLimited(Integer offset, Integer size);
 
-    Integer questionCount();
+    Integer countQuestion();
 
-    List<Question> getQuestionListByUserId(Integer userId, Integer offset, Integer size);
+    List<Question> selectQuestionByUserId(Integer userId, Integer offset, Integer size);
 
-    Integer questionCountByUserId(Integer userId);
+    Integer countQuestionByUserId(Integer userId);
 
-    Question getQuestionById(Integer id);
+    Question selectQuestionById(Integer id);
 
-    void editQuestion(Question question);
+    int updateQuestion(Question question);
 }

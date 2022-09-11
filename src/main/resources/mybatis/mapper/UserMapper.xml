@@ -10,19 +10,19 @@
         values (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified})
     </insert>
 
-    <select id="findUserByToken" resultType="com.airconditioner.community.bean.User">
+    <select id="selectUserByToken" resultType="com.airconditioner.community.bean.User">
         select *
         from user
         where token = #{token}
     </select>
 
-    <select id="findUserById" resultType="com.airconditioner.community.bean.User">
+    <select id="selectUserById" resultType="com.airconditioner.community.bean.User">
         select *
         from user
         where id = #{id}
     </select>
 
-    <select id="findUserByAccountId" resultType="com.airconditioner.community.bean.User">
+    <select id="selectUserByAccountId" resultType="com.airconditioner.community.bean.User">
         select *
         from user
         where account_id = #{accountId}

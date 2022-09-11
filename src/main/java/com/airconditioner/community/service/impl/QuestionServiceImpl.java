@@ -4,6 +4,8 @@ import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.bean.User;
 import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.dto.QuestionDTO;
+import com.airconditioner.community.exception.CustomizeErrorCode;
+import com.airconditioner.community.exception.CustomizeException;
 import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.mapper.UserMapper;
 import com.airconditioner.community.service.QuestionService;
@@ -34,7 +36,7 @@ public class QuestionServiceImpl implements QuestionService {
 
 
         Integer totalPage;
-        Integer totalCount = questionMapper.questionCountByUserId(userId);
+        Integer totalCount = questionMapper.countQuestionByUserId(userId);
 
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -54,14 +56,14 @@ public class QuestionServiceImpl implements QuestionService {
 
         Integer offset = size * (page - 1);
         // 问题 集合
-        List<Question> questionList = questionMapper.getQuestionListByUserId(userId, offset, size);
+        List<Question> questionList = questionMapper.selectQuestionByUserId(userId, offset, size);
         // 问题DTO 集合
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
 
         // 向 问题DTO 中加入 问题DTO
         for (Question question : questionList) {
-            User user = userMapper.findUserById(question.getCreator());
+            User user = userMapper.selectUserById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);
@@ -75,10 +77,13 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public QuestionDTO getQuestionById(Integer id) {
-        Question question = questionMapper.getQuestionById(id);
+        Question question = questionMapper.selectQuestionById(id);
+        if (question == null){
+            throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
+        }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
-        User user = userMapper.findUserById(question.getCreator());
+        User user = userMapper.selectUserById(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
     }
@@ -88,7 +93,7 @@ public class QuestionServiceImpl implements QuestionService {
         // 分页DTO 集合
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
-        Integer totalCount = questionMapper.questionCount();
+        Integer totalCount = questionMapper.countQuestion();
 
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -106,14 +111,14 @@ public class QuestionServiceImpl implements QuestionService {
         paginationDTO.setPagination(totalPage, page);
         Integer offset = size * (page - 1);
         // 问题 集合
-        List<Question> questionList = questionMapper.getQuestionList(offset, size);
+        List<Question> questionList = questionMapper.selectQuestionLimited(offset, size);
         // 问题DTO 集合
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
 
         // 向 问题DTO 中加入 问题DTO
         for (Question question : questionList) {
-            User user = userMapper.findUserById(question.getCreator());
+            User user = userMapper.selectUserById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);

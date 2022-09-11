@@ -4,13 +4,13 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airconditioner.community.mapper.QuestionMapper">
 
-    <insert id="publishQuestion">
+    <insert id="insertQuestion">
         insert into question
             (title, description, gmt_create, gmt_modified, creator, tag)
         values (#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{creator}, #{tag})
     </insert>
 
-    <update id="editQuestion">
+    <update id="updateQuestion">
         update question
         set title       = #{title},
             description = #{description},
@@ -19,30 +19,30 @@
         where id = #{id}
     </update>
 
-    <select id="getQuestionList" resultType="com.airconditioner.community.bean.Question">
+    <select id="selectQuestionLimited" resultType="com.airconditioner.community.bean.Question">
         select *
         from question limit #{offset}, #{size}
     </select>
 
-    <select id="getQuestionListByUserId" resultType="com.airconditioner.community.bean.Question">
+    <select id="selectQuestionByUserId" resultType="com.airconditioner.community.bean.Question">
         select *
         from question
         where creator = #{userId} limit #{offset}
             , #{size}
     </select>
 
-    <select id="getQuestionById" resultType="com.airconditioner.community.bean.Question">
+    <select id="selectQuestionById" resultType="com.airconditioner.community.bean.Question">
         select *
         from question
         where id = #{id}
     </select>
 
-    <select id="questionCount" resultType="Integer">
+    <select id="countQuestion" resultType="Integer">
         select count(*)
         from question
     </select>
 
-    <select id="questionCountByUserId" resultType="Integer">
+    <select id="countQuestionByUserId" resultType="Integer">
         select count(*)
         from question
         where creator = #{userId}

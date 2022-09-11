@@ -11,11 +11,11 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserMapper {
     void insertByGithub(User user);
 
-    User findUserByToken(String token);
+    User selectUserByToken(String token);
 
-    User findUserById(Integer id);
+    User selectUserById(Integer id);
 
-    User findUserByAccountId(String accountId);
+    User selectUserByAccountId(String accountId);
 
     void updateByGithub(User dbUser);
 }

@@ -28,7 +28,7 @@ public class SessionInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
-                    User user = userMapper.findUserByToken(token);
+                    User user = userMapper.selectUserByToken(token);
                     if (user != null) {
                         request.getSession().setAttribute("user", user);
                     }
