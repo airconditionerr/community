@@ -12,7 +12,7 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper {
 
-    public void insertQuestion(Question question);
+    void insertQuestion(Question question);
 
     List<Question> selectQuestionLimited(Integer offset, Integer size);
 
@@ -25,4 +25,6 @@ public interface QuestionMapper {
     Question selectQuestionById(Integer id);
 
     int updateQuestion(Question question);
+
+    void updateQuestionViewCount(Integer id);
 }

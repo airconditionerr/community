@@ -13,4 +13,6 @@ public interface QuestionService {
     PaginationDTO getQuestionList(Integer userId, Integer page, Integer size);
 
     QuestionDTO getQuestionById(Integer id);
+
+    void incViewCount(Integer id);
 }

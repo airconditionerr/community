@@ -89,6 +89,11 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
+    public void incViewCount(Integer id) {
+        questionMapper.updateQuestionViewCount(id);
+    }
+
+    @Override
     public PaginationDTO getQuestionList(Integer page, Integer size) {
         // 分页DTO 集合
         PaginationDTO paginationDTO = new PaginationDTO();
