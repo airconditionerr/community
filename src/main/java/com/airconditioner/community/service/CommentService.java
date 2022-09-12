@@ -1,6 +1,9 @@
 package com.airconditioner.community.service;
 
 import com.airconditioner.community.bean.Comment;
+import com.airconditioner.community.dto.CommentDTO;
+
+import java.util.List;
 
 /**
  * @Author AirConditioner
@@ -8,4 +11,6 @@ import com.airconditioner.community.bean.Comment;
  **/
 public interface CommentService {
     void insert(Comment comment);
+
+    List<CommentDTO> getCommentListById(Integer id);
 }

@@ -2,7 +2,7 @@ package com.airconditioner.community.controlller;
 
 import com.airconditioner.community.bean.Comment;
 import com.airconditioner.community.bean.User;
-import com.airconditioner.community.dto.CommentDTO;
+import com.airconditioner.community.dto.CommentCreateDTO;
 import com.airconditioner.community.dto.ResultDTO;
 import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.service.CommentService;
@@ -26,23 +26,25 @@ public class CommentController {
 
     /**
      * 评论
-     * @param commentDTO    (parentId, content, type)
+     * @param commentCreateDTO    (parentId, content, type)
      * @param session   (user)
      * @return
      */
     @PostMapping("/comment")
-    public Object post(@RequestBody CommentDTO commentDTO,
+    public Object post(@RequestBody CommentCreateDTO commentCreateDTO,
                        HttpSession session) {
 
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return ResultDTO.errorOf(CustomizeErrorCode.NO_LOGIN);
         }
-
+        if (commentCreateDTO == null || commentCreateDTO.getContent() == null || "".equals(commentCreateDTO.getContent())){
+            return ResultDTO.errorOf(CustomizeErrorCode.CONTENT_IS_EMPTY);
+        }
         Comment comment = new Comment();
-        comment.setParentId(commentDTO.getParentId());
-        comment.setContent(commentDTO.getContent());
-        comment.setType(commentDTO.getType());
+        comment.setParentId(commentCreateDTO.getParentId());
+        comment.setContent(commentCreateDTO.getContent());
+        comment.setType(commentCreateDTO.getType());
         comment.setGmtModified(new Timestamp(System.currentTimeMillis()));
         comment.setGmtCreate(new Timestamp(System.currentTimeMillis()));
         comment.setCommentator(user.getId());
