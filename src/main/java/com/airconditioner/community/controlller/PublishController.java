@@ -2,6 +2,7 @@ package com.airconditioner.community.controlller;
 
 import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.bean.User;
+import com.airconditioner.community.dto.QuestionDTO;
 import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.exception.CustomizeException;
 import com.airconditioner.community.mapper.QuestionMapper;
@@ -25,24 +26,46 @@ public class PublishController {
     @Autowired
     private QuestionMapper questionMapper;
 
+    @Autowired
+    private QuestionService questionService;
+
+    /**
+     * 跳转到 问题编辑 页面
+     * @param id    问题id
+     * @param model id、title、description、tag
+     * @return
+     */
     @GetMapping("/publish/{id}")
     public String toEdit(@PathVariable("id") Integer id,
                          Model model) {
-        Question question = questionMapper.selectQuestionById(id);
-        model.addAttribute("title", question.getTitle());
-        model.addAttribute("description", question.getDescription());
-        model.addAttribute("tag", question.getTag());
-        model.addAttribute("id", question.getId());
+        QuestionDTO questionDTO = questionService.getQuestionById(id);
+        model.addAttribute("title", questionDTO.getTitle());
+        model.addAttribute("description", questionDTO.getDescription());
+        model.addAttribute("tag", questionDTO.getTag());
+        model.addAttribute("id", questionDTO.getId());
 
 
         return "publish";
     }
 
+    /**
+     * 跳转到 问题发布 页面
+     * @return
+     */
     @GetMapping("/publish")
     public String toPublish() {
         return "publish";
     }
 
+    /**
+     * 发布问题
+     * @param title 问题标题
+     * @param description   问题描述
+     * @param tag   问题标签
+     * @param session   会话
+     * @param model title、description、tag
+     * @return
+     */
     @PostMapping("/publish")
     public String doPublish(@RequestParam("title") String title,
                             @RequestParam("description") String description,
@@ -50,6 +73,7 @@ public class PublishController {
                             HttpSession session,
                             Model model) {
 
+        // 出错时自动填充表单内容
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
@@ -68,6 +92,7 @@ public class PublishController {
             return "publish";
         }
 
+        // 登录判断
         User user = (User) session.getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");
@@ -79,14 +104,21 @@ public class PublishController {
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
-        question.setGmtCreate(new Timestamp(System.currentTimeMillis()));
-        question.setGmtModified(new Timestamp(System.currentTimeMillis()));
-
-        questionMapper.insertQuestion(question);
+        questionService.publishQuestion(question);
         return "redirect:/";
     }
 
 
+    /**
+     * 编辑问题
+     * @param title 问题标题
+     * @param description   问题描述
+     * @param tag   问题标签
+     * @param id    问题id
+     * @param session   会话
+     * @param model title、description、tag
+     * @return
+     */
     @PutMapping("/publish/{id}")
     public String edit(@RequestParam("title") String title,
                        @RequestParam("description") String description,
@@ -113,6 +145,7 @@ public class PublishController {
             return "publish";
         }
 
+        // 登录判断
         User user = (User) session.getAttribute("user");
         if (user == null) {
             model.addAttribute("error", "用户未登录");
@@ -124,14 +157,14 @@ public class PublishController {
         question.setDescription(description);
         question.setTag(tag);
         question.setCreator(user.getId());
-        question.setGmtCreate(new Timestamp(System.currentTimeMillis()));
-        question.setGmtModified(new Timestamp(System.currentTimeMillis()));
         question.setId(id);
 
-        int updateNum = questionMapper.updateQuestion(question);
+        // 编辑是否成功判断
+        int updateNum = questionService.editQuestion(question);
         if (updateNum != 1){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
+
         return "redirect:/";
     }
 

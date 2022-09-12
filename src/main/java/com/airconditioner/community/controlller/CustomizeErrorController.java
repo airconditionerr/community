@@ -18,6 +18,13 @@ import javax.servlet.http.HttpServletResponse;
 @RequestMapping({"${server.error.path:${error.path:/error}}"})
 public class CustomizeErrorController implements ErrorController {
 
+    /**
+     * 错误页
+     * @param request
+     * @param response
+     * @param model
+     * @return
+     */
     @RequestMapping(produces = {"text/html"})
     public ModelAndView errorHtml(HttpServletRequest request,
                                   HttpServletResponse response,
@@ -32,6 +39,11 @@ public class CustomizeErrorController implements ErrorController {
         return new ModelAndView("error");
     }
 
+    /**
+     * 获取状态码
+     * @param request
+     * @return
+     */
     protected HttpStatus getStatus(HttpServletRequest request) {
         Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
         if (statusCode == null) {

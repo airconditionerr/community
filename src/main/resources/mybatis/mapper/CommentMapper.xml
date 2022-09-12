@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.airconditioner.community.mapper.CommentMapper">
+
+    <insert id="insert">
+        insert into comment (id, parent_id, type, commentator, gmt_create, gmt_modified, like_count, content,
+                             comment_count)
+        values (#{id}, #{parentId}, #{type}, #{commentator}, #{gmtCreate}, #{gmtModified}, #{likeCount}, #{content},
+                #{commentCount})
+    </insert>
+
+    <select id="selectCommentByParentId" resultType="com.airconditioner.community.bean.Comment">
+        select * from comment where parent_id = #{parentId}
+    </select>
+</mapper>

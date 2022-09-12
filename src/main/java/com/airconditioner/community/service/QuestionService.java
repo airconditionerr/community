@@ -1,5 +1,6 @@
 package com.airconditioner.community.service;
 
+import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.dto.QuestionDTO;
 
@@ -15,4 +16,8 @@ public interface QuestionService {
     QuestionDTO getQuestionById(Integer id);
 
     void incViewCount(Integer id);
+
+    void publishQuestion(Question question);
+
+    int editQuestion(Question question);
 }

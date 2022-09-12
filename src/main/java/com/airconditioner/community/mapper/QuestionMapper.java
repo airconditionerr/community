@@ -26,5 +26,8 @@ public interface QuestionMapper {
 
     int updateQuestion(Question question);
 
-    void updateQuestionViewCount(Integer id);
+    void incQuestionViewCount(Integer id);
+
+    void incQuestionCommentCount(Question question);
+
 }

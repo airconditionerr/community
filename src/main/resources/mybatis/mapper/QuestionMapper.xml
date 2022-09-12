@@ -19,9 +19,15 @@
         where id = #{id}
     </update>
 
-    <update id="updateQuestionViewCount">
+    <update id="incQuestionViewCount">
         update question
         set view_count = view_count + 1
+        where id = #{id}
+    </update>
+
+    <update id="incQuestionCommentCount">
+        update question
+        set comment_count = comment_count + 1
         where id = #{id}
     </update>
 

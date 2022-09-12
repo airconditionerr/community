@@ -1,6 +1,9 @@
 package com.airconditioner.community.advice;
 
+import com.airconditioner.community.dto.ResultDTO;
+import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.exception.CustomizeException;
+import com.alibaba.fastjson.JSON;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -9,6 +12,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 
 /**
  * @Author AirConditioner
@@ -22,23 +28,40 @@ public class CustomizeExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ModelAndView handle(HttpServletRequest request,
-                               Throwable e,
-                               Model model) {
-        HttpStatus status = getStatus(request);
+                         Throwable e,
+                         Model model,
+                         HttpServletResponse response) {
 
-        if (e instanceof CustomizeException){
-            model.addAttribute("message", e.getMessage());
+        String contentType = request.getContentType();
+        if ("application/json".equals(contentType)){
+            ResultDTO resultDTO;
+            // 返回json
+            if (e instanceof CustomizeException){
+                resultDTO = ResultDTO.errorOf((CustomizeException)e);
+            } else {
+                resultDTO = ResultDTO.errorOf(CustomizeErrorCode.SYSTEM_ERROR);
+            }
+
+            try {
+                response.setContentType("application/json");
+                response.setStatus(200);
+                response.setCharacterEncoding("UTF-8");
+                PrintWriter writer = response.getWriter();
+                writer.write(JSON.toJSONString(resultDTO));
+                writer.close();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
+            return null;
         } else {
-            model.addAttribute("message", "服务错误！！！");
+            // 错误页面跳转
+            if (e instanceof CustomizeException){
+                model.addAttribute("message", e.getMessage());
+            } else {
+                model.addAttribute("message", CustomizeErrorCode.SYSTEM_ERROR.getMessage());
+            }
+            return new ModelAndView("error");
         }
-        return new ModelAndView("error");
-    }
-
-    private HttpStatus getStatus(HttpServletRequest request) {
-        Integer code = (Integer)
-                request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        HttpStatus status = HttpStatus.resolve(code);
-        return (status != null) ? status : HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
 }
