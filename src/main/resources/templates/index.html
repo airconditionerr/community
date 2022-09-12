@@ -4,6 +4,16 @@
     <title>Index</title>
     <div th:include="common :: common-header"></div>
 </head>
+<script type="application/javascript">
+    window.onload = function (){
+        let closable = window.localStorage.getItem("closable");
+        if (closable == "true"){
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+
+</script>
 <body>
 <!-- navbar start -->
 <nav th:replace="common :: common-navbar"></nav>
