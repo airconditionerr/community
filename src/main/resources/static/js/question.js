@@ -69,6 +69,9 @@ function collapseComments(e) {
             $.getJSON("/comment/" + id, function (data) {
                 $.each(data.data.reverse(), function (index, comment) {
 
+
+
+
                     var mediaBodyElement = $("<div/>", {}).append($("<span/>", {
                         "class": "comment_content",
                         "html": comment.content
@@ -81,7 +84,7 @@ function collapseComments(e) {
                         "class": "d-flex media_object"
                     }).append($("<img/>", {
                         "class": "me-3 rounded avatar",
-                        "src": "https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                        "src": $("#hidden_avatar_url").val()
                     })).append($("<div/>", {
                         "class": "commentor_name"
                     }).append($("<h7/>", {

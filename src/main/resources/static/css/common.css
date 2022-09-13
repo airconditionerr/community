@@ -23,3 +23,11 @@
 .section {
     margin-top: 15px;
 }
+
+ul{
+    list-style: none;
+}
+
+a{
+    text-decoration: none;
+}

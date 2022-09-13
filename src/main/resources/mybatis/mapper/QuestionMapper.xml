@@ -34,6 +34,7 @@
     <select id="selectQuestionLimited" resultType="com.airconditioner.community.bean.Question">
         select *
         from question limit #{offset}, #{size}
+--         order by gmt_create desc
     </select>
 
     <select id="selectQuestionByUserId" resultType="com.airconditioner.community.bean.Question">
@@ -41,6 +42,7 @@
         from question
         where creator = #{userId} limit #{offset}
             , #{size}
+        order by gmt_create desc
     </select>
 
     <select id="selectQuestionById" resultType="com.airconditioner.community.bean.Question">
@@ -58,5 +60,9 @@
         select count(*)
         from question
         where creator = #{userId}
+    </select>
+
+    <select id="selectQuestionRelated" resultType="com.airconditioner.community.bean.Question">
+        select * from question where id != #{id} and tag regexp #{tag}
     </select>
 </mapper>

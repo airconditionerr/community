@@ -6,8 +6,8 @@
 
     <insert id="insertByGithub" parameterType="com.airconditioner.community.bean.User">
         insert into user
-            (name, account_id, token, gmt_create, gmt_modified)
-        values (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified})
+            (name, account_id, token, gmt_create, gmt_modified, avatar_url)
+        values (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified}, #{avatarUrl})
     </insert>
 
     <select id="selectUserByToken" resultType="com.airconditioner.community.bean.User">
@@ -32,7 +32,8 @@
         update user
         set name         = #{name},
             token        = #{token},
-            gmt_modified = #{gmtModified}
+            gmt_modified = #{gmtModified},
+            avatar_url   = #{avatarUrl}
         where account_id = #{accountId}
     </update>
 

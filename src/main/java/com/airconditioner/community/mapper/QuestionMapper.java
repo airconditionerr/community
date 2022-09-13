@@ -30,4 +30,6 @@ public interface QuestionMapper {
 
     void incQuestionCommentCount(Question question);
 
+    List<Question> selectQuestionRelated(Question question);
+
 }

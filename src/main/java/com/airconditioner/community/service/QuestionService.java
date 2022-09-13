@@ -4,6 +4,8 @@ import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.dto.QuestionDTO;
 
+import java.util.List;
+
 /**
  * @Author AirConditioner
  * @Date 2022/9/6 15:29
@@ -20,4 +22,6 @@ public interface QuestionService {
     void publishQuestion(Question question);
 
     int editQuestion(Question question);
+
+    List<QuestionDTO> selectQuestionRelated(QuestionDTO questionDTO);
 }

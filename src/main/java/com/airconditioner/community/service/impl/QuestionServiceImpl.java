@@ -9,13 +9,18 @@ import com.airconditioner.community.exception.CustomizeException;
 import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.mapper.UserMapper;
 import com.airconditioner.community.service.QuestionService;
+import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * @Author AirConditioner
@@ -164,6 +169,26 @@ public class QuestionServiceImpl implements QuestionService {
         question.setGmtModified(new Timestamp(System.currentTimeMillis()));
         int updateNum = questionMapper.updateQuestion(question);
         return updateNum;
+    }
+
+    @Override
+    public List<QuestionDTO> selectQuestionRelated(QuestionDTO queryDTO) {
+        if (StringUtils.isNullOrEmpty(queryDTO.getTag())){
+            return new ArrayList<>();
+        }
+        String[] tags = queryDTO.getTag().split(",|，");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question question = new Question();
+        question.setId(queryDTO.getId());
+        question.setTag(regexpTag);
+
+        List<Question> questions = questionMapper.selectQuestionRelated(question);
+        List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
+            QuestionDTO questionDTO = new QuestionDTO();
+            BeanUtils.copyProperties(q, questionDTO);
+            return questionDTO;
+        }).collect(Collectors.toList());
+        return questionDTOS;
     }
 
 

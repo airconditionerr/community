@@ -32,13 +32,13 @@
                 <!-- Media object -->
                 <div class="d-flex" th:each="questionDTO : ${paginationDTO.questionDTOList}">
                     <!-- Image -->
-                    <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                         alt="John Doe"
+                    <img th:src="${session.user.avatarUrl}"
+                            src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
                          class="me-3 rounded-circle avatar"/>
                     <!-- Body -->
                     <div>
                         <h7 class="fw-bold">
-                            John Doe
+                            [[${questionDTO.user.name}]]
                             <small class="text-muted">
                                 <a th:href="@{'/question/' + ${questionDTO.id}}" th:text="${questionDTO.title}"></a>
                             </small>
