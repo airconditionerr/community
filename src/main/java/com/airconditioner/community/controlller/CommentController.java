@@ -3,16 +3,17 @@ package com.airconditioner.community.controlller;
 import com.airconditioner.community.bean.Comment;
 import com.airconditioner.community.bean.User;
 import com.airconditioner.community.dto.CommentCreateDTO;
+import com.airconditioner.community.dto.CommentDTO;
 import com.airconditioner.community.dto.ResultDTO;
+import com.airconditioner.community.enums.CommentTypeEnum;
 import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * @Author AirConditioner
@@ -52,6 +53,17 @@ public class CommentController {
         commentService.insert(comment);
 
         return ResultDTO.okOf();
+    }
+
+
+    /**
+     * 二级评论
+     * @return
+     */
+    @GetMapping("/comment/{id}")
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable("id") Integer id){
+        List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
+        return ResultDTO.okOf(commentDTOS);
     }
 
 }

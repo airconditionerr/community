@@ -2,6 +2,7 @@ package com.airconditioner.community.service;
 
 import com.airconditioner.community.bean.Comment;
 import com.airconditioner.community.dto.CommentDTO;
+import com.airconditioner.community.enums.CommentTypeEnum;
 
 import java.util.List;
 
@@ -12,5 +13,5 @@ import java.util.List;
 public interface CommentService {
     void insert(Comment comment);
 
-    List<CommentDTO> getCommentListById(Integer id);
+    List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum type);
 }

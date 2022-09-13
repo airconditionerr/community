@@ -1,8 +1,8 @@
 package com.airconditioner.community.controlller;
 
-import com.airconditioner.community.dto.CommentCreateDTO;
 import com.airconditioner.community.dto.CommentDTO;
 import com.airconditioner.community.dto.QuestionDTO;
+import com.airconditioner.community.enums.CommentTypeEnum;
 import com.airconditioner.community.service.CommentService;
 import com.airconditioner.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +31,7 @@ public class QuestionController {
                            Model model) {
         QuestionDTO questionDTO = questionService.getQuestionById(id);
 
-        List<CommentDTO> comments = commentService.getCommentListById(id);
+        List<CommentDTO> comments = commentService.listByTargetId(id, CommentTypeEnum.QUESTION);
 
         // 累加评论
         questionService.incViewCount(id);

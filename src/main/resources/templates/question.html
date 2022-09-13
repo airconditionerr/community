@@ -5,47 +5,77 @@
     <div th:include="common :: common-header"></div>
 
     <script th:src=@{/js/question.js} type="text/javascript"></script>
+    <script th:src=@{/js/moment.js} type="text/javascript"></script>
     <style>
-        .commentor_name{
+        .commentor_name {
             padding-top: 7px;
             padding-left: -5px;
         }
-        .media_object{
+
+        .media_object {
             margin-left: 10px;
         }
-        .comment{
+
+        .comment {
             margin-top: 7px;
             margin-bottom: 10px;
         }
-        .comment_button{
+
+        .comment_button {
             float: right;
             margin-right: 7px;
         }
-        .comment_content{
+
+        .comment_content {
             margin-left: 60px;
         }
-        .comment_time{
+
+        .comment_time {
             float: right;
             margin-right: 7px;
         }
-        .comments{
+
+        .comments {
             margin-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
-        .menu{
+
+        .second_comments {
+            margin-top: 10px;
+            border: 1px solid #eeeeee;
+            border-radius: 5px;
+        }
+
+        .second_comment {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eeeeee;
+            padding-bottom: 10px;
+        }
+
+        .menu {
             margin-left: 70px;
             color: #999;
             margin-bottom: 7px;
         }
-        .menu .icon{
+
+        .menu .active{
+            color: #499ef3;
+        }
+
+        .icon {
             margin-top: 3px;
             margin-right: 6px;
             font-size: 16px;
             cursor: pointer;
+            color: #999;
         }
-        .menu .icon:hover{
+
+        .menu .icon:hover {
             color: #499ef3;
         }
+
+
     </style>
 </head>
 <body>
@@ -64,7 +94,8 @@
                            th:text="'作者：' + ${questionDTO.user.name} + ' | 发布时间：' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')} + ' | 阅读数：' + ${questionDTO.viewCount}"></p>
                     </div>
                     <hr>
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-12" th:text="${'问题补充：' + questionDTO.description}"></div>
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-12"
+                         th:text="${'问题补充：' + questionDTO.description}"></div>
                     <hr>
                     <a th:href="@{'/publish/' + ${questionDTO.id}}"
                        th:if="${session.user != null && session.user.id == questionDTO.creator}">
@@ -91,12 +122,10 @@
                     <div class="d-flex media_object">
                         <!-- Image -->
                         <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                             alt="John Doe"
                              class="me-3 rounded avatar"/>
                         <!-- Body -->
                         <div class="commentor_name">
                             <h7 class="fw-bold">
-                                <!--John Doe-->
                                 [[${comment.user.name}]]
                             </h7>
                         </div>
@@ -106,9 +135,62 @@
                     <div class="menu">
                         <i class="fa-regular fa-thumbs-up icon"></i>
                         <i class="fa-regular fa-thumbs-down icon"></i>
-                        <i class="fa-regular fa-comment-dots icon"></i>
 
-                        <span class="pull-right comment_time" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
+                        <a th:href="${'#comment_' + comment.id}"
+                           data-bs-toggle="collapse"
+                           aria-expanded="false"
+                           th:aria-controls="${'comment_' + comment.id}"
+                           >
+                            <i class="fa-regular fa-comment-dots icon"
+                               th:data-id="${comment.id}"
+                               onclick="collapseComments(this)"
+                            > [[${comment.commentCount}]]</i>
+
+                        </a>
+                        <!-- Comment Icon End -->
+
+                        <span class="pull-right comment_time"
+                              th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-12 collapse second_comments"
+                             th:id="${'comment_' + comment.id}">
+
+
+                            <!-- 2nd Comment List Start -->
+                            <!--<div class="col-lg-12 col-md-12 col-sm-12 col-12 second_comment" th:each="comment : ${comments}">-->
+                            <!--    <div class="d-flex media_object">-->
+                            <!--        &lt;!&ndash; Image &ndash;&gt;-->
+                            <!--        <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"-->
+                            <!--             alt="John Doe"-->
+                            <!--             class="me-3 rounded avatar"/>-->
+                            <!--        &lt;!&ndash; Body &ndash;&gt;-->
+                            <!--        <div class="commentor_name">-->
+                            <!--            <h7 class="fw-bold">-->
+                            <!--                &lt;!&ndash;John Doe&ndash;&gt;-->
+                            <!--                [[${comment.user.name}]]-->
+                            <!--            </h7>-->
+                            <!--        </div>-->
+                            <!--    </div>-->
+                            <!--    -->
+                            <!--    <div >-->
+                            <!--        <span class="comment_content" th:text="${comment.content}"></span>-->
+                            <!--        <span class="comment_time"-->
+                            <!--              th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>-->
+                            <!--    </div>-->
+                            <!--</div>-->
+
+
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-12">
+                                <input type="text" class="form-control" placeholder="评论一下……"
+                                       th:id="${'second_comment_' + comment.id}">
+                                <button type="button" class="btn btn-success pull-right" onclick="comment(this)"
+                                        th:data-id="${comment.id}">评论
+                                </button>
+                            </div>
+                            <!-- 2nd Comment List End -->
+
+
+                        </div>
                     </div>
                 </div>
                 <!-- Comment List End -->
@@ -125,12 +207,11 @@
                     <div class="d-flex media_object">
                         <!-- Image -->
                         <img src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                             alt="John Doe"
                              class="me-3 rounded avatar"/>
                         <!-- Body -->
                         <div class="commentor_name">
                             <h7 class="fw-bold">
-                                John Doe
+                                [[${session.user.name}]]
                             </h7>
                         </div>
                     </div>
@@ -160,10 +241,10 @@
                         <!-- Body -->
                         <div>
                             <h7 class="fw-bold">
-                                John Doe
+                                [[${questionDTO.user.name}]]
                             </h7>
                             <p class="text-desc"
-                               th:text="${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' + ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}"></p>
+                               th:text="${questionDTO.commentCount} + ' 个回复 - ' + ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝'"></p>
                         </div>
                     </div>
                     <!-- Media object -->

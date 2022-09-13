@@ -50,11 +50,14 @@ public class CommentServiceImpl implements CommentService {
 
         if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())){
             // 回复评论
-            Comment dbcoment = commentMapper.selectCommentByParentId(comment.getParentId());
+            Comment dbcoment = commentMapper.selectCommentById(comment.getParentId());
             if (dbcoment == null){
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             } else {
                 commentMapper.insert(comment);
+                Comment parentComment = new Comment();
+                parentComment.setId(comment.getParentId());
+                commentMapper.incCommentCount(comment);
             }
         } else {
             // 回复问题
@@ -68,9 +71,9 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<CommentDTO> getCommentListById(Integer id) {
+    public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum type) {
         // 获取评论列表
-        List<Comment> comments = commentMapper.selectCommentList(id, CommentTypeEnum.QUESTION.getType());
+        List<Comment> comments = commentMapper.selectCommentList(id, type.getType());
         // 评论列表判空
         if (comments.size() == 0){
             return new ArrayList<>();

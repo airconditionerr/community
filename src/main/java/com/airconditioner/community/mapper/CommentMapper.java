@@ -15,7 +15,9 @@ public interface CommentMapper {
 
     void insert(Comment comment);
 
-    Comment selectCommentByParentId(Integer parentId);
+    Comment selectCommentById(Integer id);
 
     List<Comment> selectCommentList(Integer id, Integer type);
+
+    void incCommentCount(Comment comment);
 }
