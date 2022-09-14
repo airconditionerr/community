@@ -2,19 +2,18 @@ package com.airconditioner.community.controlller;
 
 import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.bean.User;
+import com.airconditioner.community.cache.TagCache;
 import com.airconditioner.community.dto.QuestionDTO;
 import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.exception.CustomizeException;
-import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.service.QuestionService;
+import com.mysql.jdbc.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.sql.Timestamp;
 
 /**
  * @Author AirConditioner
@@ -22,9 +21,6 @@ import java.sql.Timestamp;
  **/
 @Controller
 public class PublishController {
-
-    @Autowired
-    private QuestionMapper questionMapper;
 
     @Autowired
     private QuestionService questionService;
@@ -43,7 +39,7 @@ public class PublishController {
         model.addAttribute("description", questionDTO.getDescription());
         model.addAttribute("tag", questionDTO.getTag());
         model.addAttribute("id", questionDTO.getId());
-
+        model.addAttribute("tagDTOs", TagCache.get());
 
         return "publish";
     }
@@ -53,7 +49,8 @@ public class PublishController {
      * @return
      */
     @GetMapping("/publish")
-    public String toPublish() {
+    public String toPublish(Model model) {
+        model.addAttribute("tagDTOs", TagCache.get());
         return "publish";
     }
 
@@ -77,6 +74,8 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tagDTOs", TagCache.get());
+
 
         // 非空判断
         if (title == null || "".equals(title)) {
@@ -89,6 +88,12 @@ public class PublishController {
         }
         if (tag == null || "".equals(tag)) {
             model.addAttribute("error", "标签不能为空");
+            return "publish";
+        }
+
+        String invalid = TagCache.filterInvalid(tag);
+        if (!StringUtils.isNullOrEmpty(invalid)){
+            model.addAttribute("error", "输入非法标签");
             return "publish";
         }
 
@@ -130,6 +135,7 @@ public class PublishController {
         model.addAttribute("title", title);
         model.addAttribute("description", description);
         model.addAttribute("tag", tag);
+        model.addAttribute("tagDTOs", TagCache.get());
 
         // 非空判断
         if (title == null || "".equals(title)) {
@@ -142,6 +148,12 @@ public class PublishController {
         }
         if (tag == null || "".equals(tag)) {
             model.addAttribute("error", "标签不能为空");
+            return "publish";
+        }
+
+        String invalid = TagCache.filterInvalid(tag);
+        if (!StringUtils.isNullOrEmpty(invalid)){
+            model.addAttribute("error", "输入非法标签");
             return "publish";
         }
 

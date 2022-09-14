@@ -84,7 +84,7 @@ function collapseComments(e) {
                         "class": "d-flex media_object"
                     }).append($("<img/>", {
                         "class": "me-3 rounded avatar",
-                        "src": $("#hidden_avatar_url").val()
+                        "src": comment.user.avatarUrl
                     })).append($("<div/>", {
                         "class": "commentor_name"
                     }).append($("<h7/>", {

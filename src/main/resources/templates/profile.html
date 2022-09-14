@@ -25,10 +25,26 @@
                     <div>
                         <h7 class="fw-bold">
                             [[${questionDTO.user.name}]]
-                            <small class="text-muted" th:text="${questionDTO.title}"></small>
+                            <a th:href="@{'/question/' + ${questionDTO.id}}">
+                                <small class="text-muted" th:text="${questionDTO.title}"></small>
+                            </a>
                         </h7>
-                        <p class="text-desc"
-                           th:text="${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' + ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}"></p>
+                        <!--<p class="text-desc"-->
+                        <!--   th:text="${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' + ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}">-->
+
+                        <!--</p>-->
+                        <p class="text-desc">
+                            [[${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' +
+                            ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' +
+                            ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}]]
+                            <a th:href="@{'/publish/' + ${questionDTO.id}}"
+                               th:if="${session.user != null && session.user.id == questionDTO.creator}">
+                                <span class="badge bg-secondary">
+                                    <i class="fa-solid fa-pencil" style="color: #499ef3"></i> 编辑
+                                </span>
+                            </a>
+                        </p>
+
                     </div>
                 </div>
                 <!-- Media object -->

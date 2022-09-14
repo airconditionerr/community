@@ -42,7 +42,6 @@
         from question
         where creator = #{userId} limit #{offset}
             , #{size}
-        order by gmt_create desc
     </select>
 
     <select id="selectQuestionById" resultType="com.airconditioner.community.bean.Question">

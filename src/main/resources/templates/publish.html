@@ -3,6 +3,8 @@
 <head>
     <title>Publish</title>
     <div th:include="common :: common-header"></div>
+    <link rel="stylesheet" th:href="@{/css/publish.css}">
+    <script th:src=@{/js/publish.js} type="text/javascript"></script>
 </head>
 <body>
 <nav th:replace="common :: common-navbar"></nav>
@@ -19,20 +21,72 @@
                     <input type="hidden" name="_method" value="put" th:if="${id != null}">
                     <div class="mb-3">
                         <label for="title" class="form-label">问题标题（简单扼要）</label>
-                        <input type="text" class="form-control" id="title" name="title" th:value="${title}"
-                               placeholder="问题标题……">
+                        <input type="text" class="form-control"
+                               id="title"
+                               name="title"
+                               th:value="${title}"
+                               placeholder="问题标题……"
+                               autocomplete="off">
                     </div>
                     <div class="mb-3">
                         <label for="description" class="form-label">问题补充（必填，请参照右侧提示）</label>
-                        <textarea name="description" id="description" th:text="${description}" class="form-control"
-                                  cols="30" rows="10"></textarea>
+                        <textarea name="description"
+                                  id="description"
+                                  th:text="${description}"
+                                  class="form-control"
+                                  cols="30" rows="10"
+                                  autocomplete="off"></textarea>
                     </div>
                     <div class="mb-3">
                         <label for="tag" class="form-label">添加标签：</label>
-                        <input type="text" class="form-control" id="tag" name="tag" th:value="${tag}"
-                               placeholder="输入标签，以，分隔">
+                        <input type="text"
+                               class="form-control"
+                               id="tag" name="tag"
+                               th:value="${tag}"
+                               autocomplete="off"
+                               placeholder="输入标签，以，分隔"
+                               onclick="showTagSelector()">
+
+
+                        <!-- Tag Selector -->
+                        <div id="tag_selector" class="tag_selector">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="nav-item"
+                                    role="presentation"
+                                    th:each="tagDTO, tagDTOStatus : ${tagDTOs}"
+                                >
+                                    <button class="nav-link"
+                                            th:id="${tagDTO.categoryName + '_tab'}"
+                                            data-bs-toggle="tab"
+                                            th:data-bs-target="${'#' + tagDTO.categoryName}"
+                                            type="button"
+                                            role="tab"
+                                            th:aria-controls="${tagDTO.categoryName}"
+                                            aria-selected="true"
+                                            th:text="${tagDTO.categoryName}"
+                                            th:class="${tagDTOStatus.first ? 'nav-link active': 'nav-link'}">
+                                    </button>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent">
+                                <div th:id="${tagDTO.categoryName}"
+                                     role="tabpanel"
+                                     th:aria-labelledby="${tagDTO.categoryName + '_tab'}"
+                                     th:each="tagDTO, tagDTOStatus : ${tagDTOs}"
+                                     th:class="${tagDTOStatus.first ? 'tab-pane active': 'tab-pane'}">
+                                    <div class="badge bg-info text-dark tag"
+                                         onclick="selectTag(this)"
+                                         th:each="tag : ${tagDTO.tags}"
+                                         th:data-tag="${tag}">
+                                        <i class="fa-solid fa-tag"></i> [[${tag}]]
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
+
+                    <!-- Error & Publish Button -->
                     <div class="container-fluid">
                         <div class="row">
                             <div class="col-lg-10 col-md-12 col-sm-12 col-12">

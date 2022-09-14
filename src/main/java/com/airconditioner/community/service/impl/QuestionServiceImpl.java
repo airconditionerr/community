@@ -10,6 +10,7 @@ import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.mapper.UserMapper;
 import com.airconditioner.community.service.QuestionService;
 import com.mysql.jdbc.StringUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
  * @Author AirConditioner
  * @Date 2022/9/6 15:29
  **/
+@Slf4j
 @Service
 public class QuestionServiceImpl implements QuestionService {
 
