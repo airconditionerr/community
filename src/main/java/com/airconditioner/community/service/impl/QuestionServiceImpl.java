@@ -74,7 +74,7 @@ public class QuestionServiceImpl implements QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        paginationDTO.setQuestionDTOList(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
         return paginationDTO;
     }
@@ -100,6 +100,9 @@ public class QuestionServiceImpl implements QuestionService {
         if (page > totalPage) {
             page = totalPage;
         }
+        if (page < 1) {
+            page = 1;
+        }
 
         paginationDTO.setPagination(totalPage, page);
 
@@ -120,7 +123,7 @@ public class QuestionServiceImpl implements QuestionService {
             questionDTOList.add(questionDTO);
         }
 
-        paginationDTO.setQuestionDTOList(questionDTOList);
+        paginationDTO.setData(questionDTOList);
 
         return paginationDTO;
     }

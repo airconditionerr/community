@@ -68,15 +68,22 @@
                    id="dropdownUser1"
                    data-bs-toggle="dropdown"
                    aria-expanded="false">
-                    <img th:src="${session.user.avatarUrl}" src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    <img th:src="${session.user.avatarUrl}" src="https://github.com/mdo.png" alt="mdo" width="32"
+                         height="32" class="rounded-circle">
                     [[${session.user.getName()}]]
                 </a>
                 <ul class="dropdown-menu text-small" aria-labelledby="dropdownUser1">
-                    <li><a class="dropdown-item" th:href="@{/profile/questions}">My Questions</a></li>
+                    <li>
+                        <a class="dropdown-item" th:href="@{/profile/replies}">
+                            通知
+                            <span class="badge notification-badge" th:text="${session.unreadCount}"></span>
+                        </a>
+                    </li>
+                    <li><a class="dropdown-item" th:href="@{/profile/questions}">我的问题</a></li>
                     <li>
                         <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+                    <li><a class="dropdown-item" href="/logout">登出</a></li>
                 </ul>
             </div>
             <!-- right end (before login) -->

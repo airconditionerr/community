@@ -30,7 +30,7 @@
                 <hr>
 
                 <!-- Media object -->
-                <div class="d-flex" th:each="questionDTO : ${paginationDTO.questionDTOList}">
+                <div class="d-flex" th:each="questionDTO : ${paginationDTO.data}">
                     <!-- Image -->
                     <img th:src="${questionDTO.user.avatarUrl}"
                             src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"

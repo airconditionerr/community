@@ -14,8 +14,9 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PaginationDTO {
-    private List<QuestionDTO> questionDTOList;
+public class PaginationDTO<T> {
+    private List<T> data;
+    //private List<T> questionDTOList;
     private boolean showPrevious;
     private boolean showFirstPage;
     private boolean showNext;

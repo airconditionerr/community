@@ -15,81 +15,104 @@
                 <h2>[[${secitonName}]] Questions</h2>
                 <hr>
 
-                <!-- Media object -->
-                <div class="d-flex" th:each="questionDTO : ${paginationDTO.questionDTOList}">
-                    <!-- Image -->
-                    <img th:src="${session.user.avatarUrl}"
-                         src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
-                         class="me-3 rounded-circle avatar"/>
-                    <!-- Body -->
-                    <div>
-                        <h7 class="fw-bold">
-                            [[${questionDTO.user.name}]]
-                            <a th:href="@{'/question/' + ${questionDTO.id}}">
-                                <small class="text-muted" th:text="${questionDTO.title}"></small>
-                            </a>
-                        </h7>
-                        <!--<p class="text-desc"-->
-                        <!--   th:text="${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' + ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' + ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}">-->
-
-                        <!--</p>-->
-                        <p class="text-desc">
-                            [[${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' +
-                            ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' +
-                            ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}]]
-                            <a th:href="@{'/publish/' + ${questionDTO.id}}"
-                               th:if="${session.user != null && session.user.id == questionDTO.creator}">
+                <!-- 我的问题 -->
+                <div class="col-lg-9 col-md-12 col-sm-12 col-12" th:if="${section == 'questions'}">
+                    <!-- Media object -->
+                    <div class="d-flex" th:each="questionDTO : ${paginationDTO.data}">
+                        <!-- Image -->
+                        <img th:src="${session.user.avatarUrl}"
+                             src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+                             class="me-3 rounded-circle avatar"/>
+                        <!-- Body -->
+                        <div>
+                            <h7 class="fw-bold">
+                                [[${questionDTO.user.name}]]
+                                <a th:href="@{'/question/' + ${questionDTO.id}}">
+                                    <small class="text-muted" th:text="${questionDTO.title}"></small>
+                                </a>
+                            </h7>
+                            <p class="text-desc">
+                                [[${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' +
+                                ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' +
+                                ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}]]
+                                <a th:href="@{'/publish/' + ${questionDTO.id}}"
+                                   th:if="${session.user != null && session.user.id == questionDTO.creator}">
                                 <span class="badge bg-secondary">
                                     <i class="fa-solid fa-pencil" style="color: #499ef3"></i> 编辑
                                 </span>
-                            </a>
-                        </p>
+                                </a>
+                            </p>
 
+                        </div>
                     </div>
+                    <!-- Media object -->
+
+
                 </div>
-                <!-- Media object -->
+
+
+                <div class="col-lg-9 col-md-12 col-sm-12 col-12" th:if="${section == 'replies'}">
+                    <!-- Media object -->
+                    <div class="d-flex" th:each="notification : ${paginationDTO.data}">
+                        <!-- Body -->
+                        <div>
+                            <h7 class="fw-bold">
+                                <a th:href="@{'/notification/' + ${notification.id}}">
+                                    <small class="text-muted" th:text="${notification.notifierName + ' ' + notification.typeName + ' ' + notification.outerTitle}">
+
+                                    </small>
+                                    <span class="badge bg-danger" th:if="${notification.status == 0}">未读</span>
+                                </a>
+                            </h7>
+                        </div>
+                    </div>
+                    <!-- Media object -->
+                </div>
 
                 <!-- Pagination start -->
-                <nav aria-label="Page navigation example">
-                    <ul class="pagination">
-                        <li class="page-item" th:if="${paginationDTO.showFirstPage}">
-                            <a class="page-link"
-                               th:href="@{'/profile/'+${section}(page=${1})}"
-                               aria-label="Previous">
-                                <span aria-hidden="true">&lt;&lt;</span>
-                            </a>
-                        </li>
-                        <li class="page-item" th:if="${paginationDTO.showPrevious}">
-                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.page - 1})}"
-                               aria-label="Previous">
-                                <span aria-hidden="true">&lt;</span>
-                            </a>
-                        </li>
+                <div>
+                    <nav class="col-lg-12 col-md-12 col-sm-12 col-12" aria-label="Page navigation example">
+                        <ul class="pagination">
+                            <li class="page-item" th:if="${paginationDTO.showFirstPage}">
+                                <a class="page-link"
+                                   th:href="@{'/profile/'+${section}(page=${1})}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&lt;&lt;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:if="${paginationDTO.showPrevious}">
+                                <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.page - 1})}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&lt;</span>
+                                </a>
+                            </li>
 
 
-                        <li th:each="page : ${paginationDTO.pages}" class="page-item"
-                            th:class="${paginationDTO.page == page ? 'active': ''}">
-                            <a class="page-link"
-                               th:href="@{'/profile/'+${section}(page=${page})}"
-                               th:text="${page}"
-                            >
-                            </a>
-                        </li>
+                            <li th:each="page : ${paginationDTO.pages}" class="page-item"
+                                th:class="${paginationDTO.page == page ? 'active': ''}">
+                                <a class="page-link"
+                                   th:href="@{'/profile/'+${section}(page=${page})}"
+                                   th:text="${page}"
+                                >
+                                </a>
+                            </li>
 
-                        <li class="page-item" th:if="${paginationDTO.showNext}">
-                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.page + 1})}"
-                               aria-label="Previous">
-                                <span aria-hidden="true">&gt;</span>
-                            </a>
-                        </li>
-                        <li class="page-item" th:if="${paginationDTO.showEndPage}">
-                            <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.totalPage})}"
-                               aria-label="Previous">
-                                <span aria-hidden="true">&gt;&gt;</span>
-                            </a>
-                        </li>
-                    </ul>
-                </nav>
+                            <li class="page-item" th:if="${paginationDTO.showNext}">
+                                <a class="page-link" th:href="@{'/profile/'+${section}(page=${paginationDTO.page + 1})}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&gt;</span>
+                                </a>
+                            </li>
+                            <li class="page-item" th:if="${paginationDTO.showEndPage}">
+                                <a class="page-link"
+                                   th:href="@{'/profile/'+${section}(page=${paginationDTO.totalPage})}"
+                                   aria-label="Previous">
+                                    <span aria-hidden="true">&gt;&gt;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
                 <!-- Pagination end -->
 
             </div>
@@ -103,7 +126,7 @@
                     <a th:href="@{/profile/replies}"
                        th:class="${section == 'replies'}? 'active list-group-item list-group-item-action': 'list-group-item list-group-item-action'">
                         最新回复
-                        <span class="badge bg-danger badges">4</span>
+                        <span class="badge bg-danger badges" th:text="${session.unreadCount}"></span>
                     </a>
                 </div>
             </div>

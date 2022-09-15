@@ -2,6 +2,7 @@ package com.airconditioner.community.controlller;
 
 import com.airconditioner.community.bean.User;
 import com.airconditioner.community.dto.PaginationDTO;
+import com.airconditioner.community.service.NotificationService;
 import com.airconditioner.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,9 @@ public class ProfileController {
     @Autowired
     private QuestionService questionService;
 
+    @Autowired
+    private NotificationService notificationService;
+
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable("action") String action,
                           HttpSession session,
@@ -36,13 +40,18 @@ public class ProfileController {
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
+            PaginationDTO paginationDTO = questionService.getQuestionList(user.getId(), page, size);
+            model.addAttribute("paginationDTO", paginationDTO);
         } else if ("replies".equals(action)) {
+
+            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
+            Integer unreadCount = notificationService.unreadCount(user.getId());
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
+            model.addAttribute("paginationDTO", paginationDTO);
         }
 
-        PaginationDTO paginationDTO = questionService.getQuestionList(user.getId(), page, size);
-        model.addAttribute("paginationDTO", paginationDTO);
+
 
 
         return "profile";
