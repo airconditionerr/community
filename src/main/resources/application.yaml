@@ -19,7 +19,19 @@ spring:
         enabled: true
 
 mybatis:
-  #  config-location: classpath:mybatis/mapper/mybatis-config.xml
   mapper-locations: classpath:mybatis/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+logging:
+  level:
+    root: info
+    com:
+      airconditioner:
+        community:
+          mapper: debug
+  logback:
+    rollingpolicy:
+      max-file-size: 100MB
+      max-history: 15
+  file:
+    name: logs/community.log

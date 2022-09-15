@@ -1,0 +1,19 @@
+2022-09-15 14:15:52.114  INFO 13368 --- [restartedMain] c.a.community.CommunityApplication       : Starting CommunityApplication using Java 1.8.0_131 on AirConditioners with PID 13368 (D:\Coding\Code\community\target\classes started by 29175 in D:\Coding\Code\community)
+2022-09-15 14:15:52.114  INFO 13368 --- [restartedMain] c.a.community.CommunityApplication       : No active profile set, falling back to 1 default profile: "default"
+2022-09-15 14:15:53.013  INFO 13368 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8888 (http)
+2022-09-15 14:15:53.014  INFO 13368 --- [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-09-15 14:15:53.014  INFO 13368 --- [restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.65]
+2022-09-15 14:15:53.095  INFO 13368 --- [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-09-15 14:15:53.105  INFO 13368 --- [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 985 ms
+2022-09-15 14:15:53.152  INFO 13368 --- [restartedMain] c.a.d.s.b.a.DruidDataSourceAutoConfigure : Init DruidDataSource
+2022-09-15 14:15:53.161  INFO 13368 --- [restartedMain] com.alibaba.druid.pool.DruidDataSource   : {dataSource-2} inited
+2022-09-15 14:15:53.355  INFO 13368 --- [restartedMain] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-09-15 14:15:53.422  INFO 13368 --- [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-09-15 14:15:53.449  INFO 13368 --- [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8888 (http) with context path ''
+2022-09-15 14:15:53.455  INFO 13368 --- [restartedMain] c.a.community.CommunityApplication       : Started CommunityApplication in 1.558 seconds (JVM running for 1156.499)
+2022-09-15 14:15:53.457  INFO 13368 --- [restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
+2022-09-15 14:16:01.934  INFO 13368 --- [http-nio-8888-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-09-15 14:16:01.935  INFO 13368 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-09-15 14:16:01.936  INFO 13368 --- [http-nio-8888-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2022-09-15 14:17:11.250  INFO 13368 --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-2} closing ...
+2022-09-15 14:17:11.254  INFO 13368 --- [SpringApplicationShutdownHook] com.alibaba.druid.pool.DruidDataSource   : {dataSource-2} closed
