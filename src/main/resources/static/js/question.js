@@ -110,3 +110,9 @@ function collapseComments(e) {
         }
     }
 }
+
+$(function () {
+    editormd.markdownToHTML("question-view", {
+
+    })
+})

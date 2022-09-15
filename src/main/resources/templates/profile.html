@@ -32,7 +32,7 @@
                                 </a>
                             </h7>
                             <p class="text-desc">
-                                [[${questionDTO.description} + ' - ' + ${questionDTO.commentCount} + ' 个回复 - ' +
+                                [[${questionDTO.commentCount} + ' 个回复 - ' +
                                 ${questionDTO.viewCount} + ' 次浏览 - ' + ${questionDTO.followCount} + ' 个粉丝 - ' +
                                 ${#dates.format(questionDTO.gmtCreate, 'yyyy-MM-dd HH:mm')}]]
                                 <a th:href="@{'/publish/' + ${questionDTO.id}}"
@@ -58,7 +58,8 @@
                         <div>
                             <h7 class="fw-bold">
                                 <a th:href="@{'/notification/' + ${notification.id}}">
-                                    <small class="text-muted" th:text="${notification.notifierName + ' ' + notification.typeName + ' ' + notification.outerTitle}">
+                                    <small class="text-muted"
+                                           th:text="${notification.notifierName + ' ' + notification.typeName + ' ' + notification.outerTitle}">
 
                                     </small>
                                     <span class="badge bg-danger" th:if="${notification.status == 0}">未读</span>
