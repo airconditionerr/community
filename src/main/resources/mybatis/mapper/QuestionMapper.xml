@@ -31,9 +31,14 @@
         where id = #{id}
     </update>
 
-    <select id="selectQuestionLimited" resultType="com.airconditioner.community.bean.Question">
+    <select id="selectQuestionBySearch" resultType="com.airconditioner.community.bean.Question">
         select *
         from question
+        <where>
+            <if test="search != null and search != ''">
+               and title regexp #{search}
+            </if>
+        </where>
         order by gmt_create desc
             limit #{offset}, #{size}
 
@@ -63,6 +68,16 @@
         select count(*)
         from question
         where creator = #{userId}
+    </select>
+
+    <select id="countQuestionBySearch" resultType="Integer">
+        select count(*)
+        from question
+        <where>
+            <if test="search != null and search != ''">
+                and title regexp #{search}
+            </if>
+        </where>
     </select>
 
     <select id="selectQuestionRelated" resultType="com.airconditioner.community.bean.Question">

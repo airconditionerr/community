@@ -23,6 +23,9 @@ $(function () {
         watch: false,
         placeholder: "请输入问题描述",
         emoji: true,
-        path : "/js/lib/"
+        path: "/js/lib/",
+        imageUpload: true,
+        imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webq"],
+        imageUploadURL: "/file/upload"
     })
 })

@@ -4,6 +4,7 @@ import com.airconditioner.community.bean.Question;
 import com.airconditioner.community.bean.User;
 import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.dto.QuestionDTO;
+import com.airconditioner.community.dto.QuestionQueryDTO;
 import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.exception.CustomizeException;
 import com.airconditioner.community.mapper.QuestionMapper;
@@ -18,9 +19,7 @@ import org.springframework.stereotype.Service;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 /**
@@ -38,11 +37,18 @@ public class QuestionServiceImpl implements QuestionService {
     private QuestionMapper questionMapper;
 
     @Override
-    public PaginationDTO getQuestionList(Integer page, Integer size) {
+    public PaginationDTO getQuestionList(String search, Integer page, Integer size) {
+        if (!StringUtils.isNullOrEmpty(search)){
+            String[] tags = search.split(" ");
+            search = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
         // 分页DTO 集合
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
-        Integer totalCount = questionMapper.countQuestion();
+
+        QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
+        questionQueryDTO.setSearch(search);
+        Integer totalCount = questionMapper.countQuestionBySearch(questionQueryDTO);
 
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -60,7 +66,9 @@ public class QuestionServiceImpl implements QuestionService {
         paginationDTO.setPagination(totalPage, page);
         Integer offset = size * (page - 1);
         // 问题 集合
-        List<Question> questionList = questionMapper.selectQuestionLimited(offset, size);
+        questionQueryDTO.setOffset(offset);
+        questionQueryDTO.setSize(size);
+        List<Question> questionList = questionMapper.selectQuestionBySearch(questionQueryDTO);
         // 问题DTO 集合
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 

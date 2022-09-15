@@ -44,8 +44,8 @@
             <!-- links end -->
 
             <!-- search start -->
-            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
-                <input type="search" class="form-control" placeholder="Search..." aria-label="Search">
+            <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" th:action="@{/}" method="get">
+                <input name="search" type="text" class="form-control" placeholder="Search..." aria-label="Search">
                 <!--<button class="btn btn-outline-success" type="submit">Search</button>-->
             </form>
             <!-- search end -->

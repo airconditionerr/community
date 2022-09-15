@@ -1,6 +1,7 @@
 package com.airconditioner.community.mapper;
 
 import com.airconditioner.community.bean.Question;
+import com.airconditioner.community.dto.QuestionQueryDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface QuestionMapper {
 
     void insertQuestion(Question question);
 
-    List<Question> selectQuestionLimited(Integer offset, Integer size);
+    List<Question> selectQuestionBySearch(QuestionQueryDTO questionQueryDTO);
 
     Integer countQuestion();
 
@@ -32,4 +33,5 @@ public interface QuestionMapper {
 
     List<Question> selectQuestionRelated(Question question);
 
+    Integer countQuestionBySearch(QuestionQueryDTO questionQueryDTO);
 }

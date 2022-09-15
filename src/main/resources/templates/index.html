@@ -53,12 +53,12 @@
                 <nav aria-label="Page navigation example">
                     <ul class="pagination">
                         <li class="page-item" th:if="${paginationDTO.showFirstPage}">
-                            <a class="page-link" th:href="@{/?page=1}" aria-label="Previous">
+                            <a class="page-link" th:href="@{/(page=1,search=${search})}" aria-label="Previous">
                                 <span aria-hidden="true">&lt;&lt;</span>
                             </a>
                         </li>
                         <li class="page-item" th:if="${paginationDTO.showPrevious}">
-                            <a class="page-link" th:href="@{/(page=${paginationDTO.page - 1})}" aria-label="Previous">
+                            <a class="page-link" th:href="@{/(page=${paginationDTO.page - 1},search=${search})}" aria-label="Previous">
                                 <span aria-hidden="true">&lt;</span>
                             </a>
                         </li>
@@ -67,19 +67,19 @@
                         <li th:each="page : ${paginationDTO.pages}" class="page-item"
                             th:class="${paginationDTO.page == page ? 'active': ''}">
                             <a class="page-link"
-                               th:href="@{/(page=${page})}"
+                               th:href="@{/(page=${page},search=${search})}"
                                th:text="${page}"
                             >
                             </a>
                         </li>
 
                         <li class="page-item" th:if="${paginationDTO.showNext}">
-                            <a class="page-link" th:href="@{/(page=${paginationDTO.page + 1})}" aria-label="Previous">
+                            <a class="page-link" th:href="@{/(page=${paginationDTO.page + 1},search=${search})}" aria-label="Previous">
                                 <span aria-hidden="true">&gt;</span>
                             </a>
                         </li>
                         <li class="page-item" th:if="${paginationDTO.showEndPage}">
-                            <a class="page-link" th:href="@{/(page=${paginationDTO.totalPage})}" aria-label="Previous">
+                            <a class="page-link" th:href="@{/(page=${paginationDTO.totalPage},search=${search})}" aria-label="Previous">
                                 <span aria-hidden="true">&gt;&gt;</span>
                             </a>
                         </li>
