@@ -35,3 +35,8 @@ a{
 .notification-badge{
     background-color: red;
 }
+
+.foot{
+    color: #666;
+    padding: 10px 25%;
+}
