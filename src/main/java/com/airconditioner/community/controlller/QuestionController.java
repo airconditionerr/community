@@ -27,6 +27,12 @@ public class QuestionController {
     @Autowired
     private CommentService commentService;
 
+    /**
+     * 跳转到 question
+     * @param id
+     * @param model
+     * @return
+     */
     @GetMapping("/question/{id}")
     public String question(@PathVariable("id") BigInteger id,
                            Model model) {

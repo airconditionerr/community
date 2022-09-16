@@ -6,7 +6,7 @@ import com.airconditioner.community.entity.Question;
 import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.CommentDTO;
 import com.airconditioner.community.enums.CommentTypeEnum;
-import com.airconditioner.community.enums.NotificationStatusEnum;
+import com.airconditioner.community.enums.NotificationIsReadEnum;
 import com.airconditioner.community.enums.NotificationTypeEnum;
 import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.exception.CustomizeException;
@@ -72,7 +72,7 @@ public class CommentServiceImpl implements CommentService {
                 commentMapper.insert(comment);
 
 
-                // 回复问题
+
                 Question question = questionMapper.getById(dbcoment.getParentId());
                 if (question == null) {
                     throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
@@ -80,7 +80,7 @@ public class CommentServiceImpl implements CommentService {
 
                 Comment parentComment = new Comment();
                 parentComment.setId(comment.getParentId());
-                commentMapper.incCommentCount(comment);
+                commentMapper.incCommentCount(parentComment);
 
 
                 // 创建通知
@@ -125,7 +125,7 @@ public class CommentServiceImpl implements CommentService {
         notification.setType(notificationTypeEnum.getType());
         notification.setOuterId(outerId);
         notification.setNotifier(comment.getCommentator());
-        notification.setIsRead(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setIsRead(NotificationIsReadEnum.UNREAD.getIsRead());
         notification.setReceiver(receiver);
         notification.setNotifierName(notifierName);
         notification.setOuterTitle(outerTitle);

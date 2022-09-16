@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 
 /**
@@ -15,10 +16,10 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CommentDTO {
-    private Integer id;
-    private Integer parentId;
+    private BigInteger id;
+    private BigInteger parentId;
     private Integer type;
-    private Integer commentator;
+    private BigInteger commentator;
     private Timestamp gmtCreate;
     private Timestamp gmtModified;
     private Integer likeCount;

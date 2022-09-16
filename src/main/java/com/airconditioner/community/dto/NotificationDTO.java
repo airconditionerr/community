@@ -2,6 +2,9 @@ package com.airconditioner.community.dto;
 
 import lombok.Data;
 
+import java.math.BigInteger;
+import java.sql.Timestamp;
+
 /**
  * @Author AirConditioner
  * @Date 2022/9/14 17:41
@@ -9,13 +12,13 @@ import lombok.Data;
 @Data
 public class NotificationDTO {
 
-    private int id;
-    private int gmtCreate;
-    private int status;
-    private Integer notifier;
+    private BigInteger id;
+    private Timestamp gmtCreate;
+    private Integer isRead;
+    private BigInteger notifier;
     private String notifierName;
     private String outerTitle;
-    private Integer outerid;
+    private BigInteger outerId;
     private String typeName;
     private Integer type;
 

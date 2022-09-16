@@ -4,7 +4,7 @@ import com.airconditioner.community.entity.Notification;
 import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.NotificationDTO;
 import com.airconditioner.community.dto.PaginationDTO;
-import com.airconditioner.community.enums.NotificationStatusEnum;
+import com.airconditioner.community.enums.NotificationIsReadEnum;
 import com.airconditioner.community.enums.NotificationTypeEnum;
 import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.exception.CustomizeException;
@@ -29,9 +29,6 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Autowired
     private NotificationMapper notificationMapper;
-
-    @Autowired
-    private UserMapper userMapper;
 
     @Override
     public PaginationDTO listByUserId(BigInteger userId, Integer page, Integer size) {
@@ -84,7 +81,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public Integer countUnreadByUserId(BigInteger id) {
-        return notificationMapper.countUnreadByUserId(id, NotificationStatusEnum.UNREAD.getStatus());
+        return notificationMapper.countUnreadByUserId(id, NotificationIsReadEnum.UNREAD.getIsRead());
     }
 
     @Override
@@ -97,7 +94,7 @@ public class NotificationServiceImpl implements NotificationService {
             throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
         }
 
-        notification.setIsRead(NotificationStatusEnum.READ.getStatus());
+        notification.setIsRead(NotificationIsReadEnum.READ.getIsRead());
         notificationMapper.updateIsReadById(notification);
 
 

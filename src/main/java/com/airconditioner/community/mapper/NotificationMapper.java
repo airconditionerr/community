@@ -16,7 +16,7 @@ public interface NotificationMapper {
 
     Integer countByUserId(BigInteger userId);
 
-    Integer countUnreadByUserId(BigInteger userId, Integer status);
+    Integer countUnreadByUserId(BigInteger userId, Integer isRead);
 
     List<Notification> getByUserId(BigInteger userId, Integer offset, Integer size);
 

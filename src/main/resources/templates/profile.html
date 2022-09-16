@@ -62,7 +62,7 @@
                                            th:text="${notification.notifierName + ' ' + notification.typeName + ' ' + notification.outerTitle}">
 
                                     </small>
-                                    <span class="badge bg-danger" th:if="${notification.status == 0}">未读</span>
+                                    <span class="badge bg-danger" th:if="${notification.isRead == 0}">未读</span>
                                 </a>
                             </h7>
                         </div>
