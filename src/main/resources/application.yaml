@@ -31,10 +31,10 @@ mybatis:
 logging:
   level:
     root: info
-#    com:
-#      airconditioner:
-#        community:
-#          mapper: debug
+    com:
+      airconditioner:
+        community:
+          mapper: debug
   logback:
     rollingpolicy:
       max-file-size: 100MB

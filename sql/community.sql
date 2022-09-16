@@ -36,11 +36,11 @@ create table comment
     parent_id     bigint unsigned not null comment '评论的问题或评论的id',
     type          tinyint(1) unsigned not null comment '回复类型：1-评论问题，2-评论评论',
     commentator   bigint unsigned not null comment '评论者id',
-    gmt_create    timestamp default CURRENT_TIMESTAMP     not null comment '创建时间',
-    gmt_modified  timestamp default '0000-00-00 00:00:00' not null comment '修改时间',
-    like_count    int(20) default 0 null,
+    gmt_create    timestamp default CURRENT_TIMESTAMP comment '创建时间',
+    gmt_modified  timestamp default null comment '修改时间',
+    like_count    int(20) default 0,
     content       varchar(1024) null comment '评论内容',
-    comment_count int       default 0 null comment '评论数'
+    comment_count int       default 0 comment '评论数'
 );
 
 drop table if exists notification;
