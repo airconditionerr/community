@@ -1,7 +1,7 @@
 package com.airconditioner.community.service.impl;
 
-import com.airconditioner.community.bean.Question;
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.Question;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.dto.QuestionDTO;
 import com.airconditioner.community.dto.QuestionQueryDTO;
@@ -16,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -36,26 +37,30 @@ public class QuestionServiceImpl implements QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
 
+    /**
+     * 获取 搜索问题 集合
+     * @param search 搜索内容
+     * @param page   分页页码
+     * @param size   分页页面大小
+     * @return
+     */
     @Override
-    public PaginationDTO getQuestionList(String search, Integer page, Integer size) {
+    public PaginationDTO listBySearch(String search, Integer page, Integer size) {
+        // search 判空 & -> regex
         if (!StringUtils.isNullOrEmpty(search)){
             String[] tags = search.split(" ");
             search = Arrays.stream(tags).collect(Collectors.joining("|"));
         }
-        // 分页DTO 集合
         PaginationDTO paginationDTO = new PaginationDTO();
         Integer totalPage;
-
         QuestionQueryDTO questionQueryDTO = new QuestionQueryDTO();
         questionQueryDTO.setSearch(search);
-        Integer totalCount = questionMapper.countQuestionBySearch(questionQueryDTO);
-
+        Integer totalCount = questionMapper.countBySearch(questionQueryDTO);
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
         } else {
             totalPage = totalCount / size + 1;
         }
-
         if (page < 1) {
             page = 1;
         }
@@ -68,14 +73,14 @@ public class QuestionServiceImpl implements QuestionService {
         // 问题 集合
         questionQueryDTO.setOffset(offset);
         questionQueryDTO.setSize(size);
-        List<Question> questionList = questionMapper.selectQuestionBySearch(questionQueryDTO);
+        List<Question> questionList = questionMapper.listBySearch(questionQueryDTO);
         // 问题DTO 集合
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
 
         // 向 问题DTO 中加入 问题DTO
         for (Question question : questionList) {
-            User user = userMapper.selectUserById(question.getCreator());
+            User user = userMapper.getById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);
@@ -88,13 +93,13 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public PaginationDTO getQuestionList(Integer userId, Integer page, Integer size) {
+    public PaginationDTO listByUserId(BigInteger userId, Integer page, Integer size) {
         // 分页DTO 集合
         PaginationDTO paginationDTO = new PaginationDTO();
 
 
         Integer totalPage;
-        Integer totalCount = questionMapper.countQuestionByUserId(userId);
+        Integer totalCount = questionMapper.countByUserId(userId);
 
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -117,14 +122,14 @@ public class QuestionServiceImpl implements QuestionService {
 
         Integer offset = size * (page - 1);
         // 问题 集合
-        List<Question> questionList = questionMapper.selectQuestionByUserId(userId, offset, size);
+        List<Question> questionList = questionMapper.getByUserId(userId, offset, size);
         // 问题DTO 集合
         List<QuestionDTO> questionDTOList = new ArrayList<>();
 
 
         // 向 问题DTO 中加入 问题DTO
         for (Question question : questionList) {
-            User user = userMapper.selectUserById(question.getCreator());
+            User user = userMapper.getById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(question, questionDTO);
             questionDTO.setUser(user);
@@ -137,14 +142,14 @@ public class QuestionServiceImpl implements QuestionService {
     }
 
     @Override
-    public QuestionDTO getQuestionById(Integer id) {
-        Question question = questionMapper.selectQuestionById(id);
+    public QuestionDTO getById(BigInteger id) {
+        Question question = questionMapper.getById(id);
         if (question == null){
             throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
         }
         QuestionDTO questionDTO = new QuestionDTO();
         BeanUtils.copyProperties(question, questionDTO);
-        User user = userMapper.selectUserById(question.getCreator());
+        User user = userMapper.getById(question.getCreator());
         questionDTO.setUser(user);
         return questionDTO;
     }
@@ -154,8 +159,8 @@ public class QuestionServiceImpl implements QuestionService {
      * @param id    问题id
      */
     @Override
-    public void incViewCount(Integer id) {
-        questionMapper.incQuestionViewCount(id);
+    public void incViewCount(BigInteger id) {
+        questionMapper.incViewCount(id);
     }
 
     /**
@@ -165,11 +170,10 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public void publishQuestion(Question question) {
         question.setViewCount(0);
-        question.setFollowCount(0);
         question.setCommentCount(0);
         question.setGmtCreate(new Timestamp(System.currentTimeMillis()));
         question.setGmtModified(new Timestamp(System.currentTimeMillis()));
-        questionMapper.insertQuestion(question);
+        questionMapper.insert(question);
     }
 
     /**
@@ -195,7 +199,7 @@ public class QuestionServiceImpl implements QuestionService {
         question.setId(queryDTO.getId());
         question.setTag(regexpTag);
 
-        List<Question> questions = questionMapper.selectQuestionRelated(question);
+        List<Question> questions = questionMapper.listRelated(question);
         List<QuestionDTO> questionDTOS = questions.stream().map(q -> {
             QuestionDTO questionDTO = new QuestionDTO();
             BeanUtils.copyProperties(q, questionDTO);

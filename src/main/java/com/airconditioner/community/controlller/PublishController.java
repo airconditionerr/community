@@ -1,7 +1,7 @@
 package com.airconditioner.community.controlller;
 
-import com.airconditioner.community.bean.Question;
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.Question;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.cache.TagCache;
 import com.airconditioner.community.dto.QuestionDTO;
 import com.airconditioner.community.exception.CustomizeErrorCode;
@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
 
 /**
  * @Author AirConditioner
@@ -32,9 +33,9 @@ public class PublishController {
      * @return
      */
     @GetMapping("/publish/{id}")
-    public String toEdit(@PathVariable("id") Integer id,
+    public String toEdit(@PathVariable("id") BigInteger id,
                          Model model) {
-        QuestionDTO questionDTO = questionService.getQuestionById(id);
+        QuestionDTO questionDTO = questionService.getById(id);
         model.addAttribute("title", questionDTO.getTitle());
         model.addAttribute("description", questionDTO.getDescription());
         model.addAttribute("tag", questionDTO.getTag());
@@ -128,7 +129,7 @@ public class PublishController {
     public String edit(@RequestParam("title") String title,
                        @RequestParam("description") String description,
                        @RequestParam("tag") String tag,
-                       @PathVariable("id") Integer id,
+                       @PathVariable("id") BigInteger id,
                        HttpSession session,
                        Model model) {
 

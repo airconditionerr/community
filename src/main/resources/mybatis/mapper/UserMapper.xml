@@ -4,35 +4,35 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airconditioner.community.mapper.UserMapper">
 
-    <insert id="insertByGithub" parameterType="com.airconditioner.community.bean.User">
+    <insert id="insert" parameterType="com.airconditioner.community.entity.User">
         insert into user
             (name, account_id, token, gmt_create, gmt_modified, avatar_url)
         values (#{name}, #{accountId}, #{token}, #{gmtCreate}, #{gmtModified}, #{avatarUrl})
     </insert>
 
-    <select id="selectUserByToken" resultType="com.airconditioner.community.bean.User">
+    <select id="getByToken" resultType="com.airconditioner.community.entity.User">
         select *
         from user
         where token = #{token}
     </select>
 
-    <select id="selectUserById" resultType="com.airconditioner.community.bean.User">
+    <select id="getById" resultType="com.airconditioner.community.entity.User">
         select *
         from user
         where id = #{id}
     </select>
 
-    <select id="selectUserByAccountId" resultType="com.airconditioner.community.bean.User">
+    <select id="getByAccountId" resultType="com.airconditioner.community.entity.User">
         select *
         from user
         where account_id = #{accountId}
     </select>
 
-    <update id="updateByGithub">
+    <update id="update">
         update user
-        set name         = #{name},
-            token        = #{token},
+        set token        = #{token},
             gmt_modified = #{gmtModified},
+            name         = #{name},
             avatar_url   = #{avatarUrl}
         where account_id = #{accountId}
     </update>

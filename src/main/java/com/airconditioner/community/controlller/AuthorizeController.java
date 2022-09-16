@@ -1,9 +1,9 @@
 package com.airconditioner.community.controlller;
 
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.AccessTokenDTO;
 import com.airconditioner.community.dto.GithubUser;
-import com.airconditioner.community.dto.TempCodeDTO;
+import com.airconditioner.community.dto.GitHubIdentificationCodeDTO;
 import com.airconditioner.community.provider.GithubProvider;
 import com.airconditioner.community.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,15 +38,10 @@ public class AuthorizeController {
     private UserService userService;
 
     @GetMapping("/callback")
-    public String callback(@RequestParam("code") String code,
-                           @RequestParam("state") String state,
-                           HttpServletResponse response) {
-        TempCodeDTO tempCodeDTO = new TempCodeDTO(clientId, client_secret, code, redirect_uri, state);
-        AccessTokenDTO accessTokenDTO = githubProvider.getAccessToken(tempCodeDTO);
-        //log.info("accessToken:" + accessTokenDTO.getAccess_token());
-        //log.info("accessToken_Type:" + accessTokenDTO.getToken_type());
+    public String callback(@RequestParam("code") String code, HttpServletResponse response) {
+        GitHubIdentificationCodeDTO gitHubIdentificationCodeDTO = new GitHubIdentificationCodeDTO(clientId, client_secret, code, redirect_uri);
+        AccessTokenDTO accessTokenDTO = githubProvider.getAccessToken(gitHubIdentificationCodeDTO);
         GithubUser githubUser = githubProvider.getGithubUser(accessTokenDTO);
-        //log.info("githubUser.name:" + githubUser.getName());
         if (githubUser != null && githubUser.getId() != null) {
             // 登录成功 => cookie & session
             User user = new User();
@@ -58,10 +53,11 @@ public class AuthorizeController {
             userService.loginByGithub(user);
             response.addCookie(new Cookie("token", token));
 
+            log.info("登录成功");
             return "redirect:/";
         } else {
             // 登陆失败
-            log.error("callback get github error,{}", githubUser);
+            log.error("登录失败");
             return "redirect:/";
         }
     }

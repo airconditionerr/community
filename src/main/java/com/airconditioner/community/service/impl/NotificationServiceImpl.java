@@ -1,7 +1,7 @@
 package com.airconditioner.community.service.impl;
 
-import com.airconditioner.community.bean.Notification;
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.Notification;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.NotificationDTO;
 import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.enums.NotificationStatusEnum;
@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -33,13 +34,13 @@ public class NotificationServiceImpl implements NotificationService {
     private UserMapper userMapper;
 
     @Override
-    public PaginationDTO list(Integer userId, Integer page, Integer size) {
+    public PaginationDTO listByUserId(BigInteger userId, Integer page, Integer size) {
         // 分页DTO 集合
         PaginationDTO<NotificationDTO> paginationDTO = new PaginationDTO<>();
 
 
         Integer totalPage;
-        Integer totalCount = notificationMapper.countNotificationByUserId(userId);
+        Integer totalCount = notificationMapper.countByUserId(userId);
 
         if (totalCount % size == 0) {
             totalPage = totalCount / size;
@@ -63,7 +64,7 @@ public class NotificationServiceImpl implements NotificationService {
 
         Integer offset = size * (page - 1);
         // 问题 集合
-        List<Notification> notificationList = notificationMapper.selectNotificationByUserId(userId, offset, size);
+        List<Notification> notificationList = notificationMapper.getByUserId(userId, offset, size);
 
         if (notificationList.size() == 0){
             return paginationDTO;
@@ -82,13 +83,13 @@ public class NotificationServiceImpl implements NotificationService {
     }
 
     @Override
-    public Integer unreadCount(Integer id) {
-        return notificationMapper.countUnreadNotificationByUserId(id, NotificationStatusEnum.UNREAD.getStatus());
+    public Integer countUnreadByUserId(BigInteger id) {
+        return notificationMapper.countUnreadByUserId(id, NotificationStatusEnum.UNREAD.getStatus());
     }
 
     @Override
-    public NotificationDTO read(Integer id, User user) {
-        Notification notification = notificationMapper.selectNotificationById(id);
+    public NotificationDTO read(BigInteger id, User user) {
+        Notification notification = notificationMapper.getById(id);
         if (notification == null){
             throw new CustomizeException(CustomizeErrorCode.NOTIFICATION_NOT_FOUND);
         }
@@ -96,8 +97,8 @@ public class NotificationServiceImpl implements NotificationService {
             throw new CustomizeException(CustomizeErrorCode.READ_NOTIFICATION_FAIL);
         }
 
-        notification.setStatus(NotificationStatusEnum.READ.getStatus());
-        notificationMapper.updateStatusById(notification);
+        notification.setIsRead(NotificationStatusEnum.READ.getStatus());
+        notificationMapper.updateIsReadById(notification);
 
 
         NotificationDTO notificationDTO = new NotificationDTO();

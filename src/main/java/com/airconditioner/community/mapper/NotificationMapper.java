@@ -1,9 +1,9 @@
 package com.airconditioner.community.mapper;
 
-import com.airconditioner.community.bean.Notification;
-import com.airconditioner.community.bean.Question;
+import com.airconditioner.community.entity.Notification;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -14,13 +14,13 @@ import java.util.List;
 public interface NotificationMapper {
     void insert(Notification notification);
 
-    Integer countNotificationByUserId(Integer userId);
+    Integer countByUserId(BigInteger userId);
 
-    Integer countUnreadNotificationByUserId(Integer userId, Integer status);
+    Integer countUnreadByUserId(BigInteger userId, Integer status);
 
-    List<Notification> selectNotificationByUserId(Integer userId, Integer offset, Integer size);
+    List<Notification> getByUserId(BigInteger userId, Integer offset, Integer size);
 
-    Notification selectNotificationById(Integer id);
+    Notification getById(BigInteger id);
 
-    void updateStatusById(Notification notification);
+    void updateIsReadById(Notification notification);
 }

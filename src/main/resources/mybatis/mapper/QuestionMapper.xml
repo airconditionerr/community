@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.airconditioner.community.mapper.QuestionMapper">
 
-    <insert id="insertQuestion">
+    <insert id="insert">
         insert into question
             (title, description, gmt_create, gmt_modified, creator, tag)
         values (#{title}, #{description}, #{gmtCreate}, #{gmtModified}, #{creator}, #{tag})
@@ -19,19 +19,19 @@
         where id = #{id}
     </update>
 
-    <update id="incQuestionViewCount">
+    <update id="incViewCount">
         update question
         set view_count = view_count + 1
         where id = #{id}
     </update>
 
-    <update id="incQuestionCommentCount">
+    <update id="incCommentCount">
         update question
         set comment_count = comment_count + 1
         where id = #{id}
     </update>
 
-    <select id="selectQuestionBySearch" resultType="com.airconditioner.community.bean.Question">
+    <select id="listBySearch" resultType="com.airconditioner.community.entity.Question">
         select *
         from question
         <where>
@@ -44,7 +44,7 @@
 
     </select>
 
-    <select id="selectQuestionByUserId" resultType="com.airconditioner.community.bean.Question">
+    <select id="getByUserId" resultType="com.airconditioner.community.entity.Question">
         select *
         from question
         where creator = #{userId}
@@ -53,24 +53,19 @@
                , #{size}
     </select>
 
-    <select id="selectQuestionById" resultType="com.airconditioner.community.bean.Question">
+    <select id="getById" resultType="com.airconditioner.community.entity.Question">
         select *
         from question
         where id = #{id}
     </select>
 
-    <select id="countQuestion" resultType="Integer">
-        select count(*)
-        from question
-    </select>
-
-    <select id="countQuestionByUserId" resultType="Integer">
+    <select id="countByUserId" resultType="Integer">
         select count(*)
         from question
         where creator = #{userId}
     </select>
 
-    <select id="countQuestionBySearch" resultType="Integer">
+    <select id="countBySearch" resultType="Integer">
         select count(*)
         from question
         <where>
@@ -80,7 +75,7 @@
         </where>
     </select>
 
-    <select id="selectQuestionRelated" resultType="com.airconditioner.community.bean.Question">
+    <select id="listRelated" resultType="com.airconditioner.community.entity.Question">
         select *
         from question
         where id != #{id}

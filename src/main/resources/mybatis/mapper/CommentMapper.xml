@@ -5,19 +5,19 @@
 <mapper namespace="com.airconditioner.community.mapper.CommentMapper">
 
     <insert id="insert">
-        insert into comment (id, parent_id, type, commentator, gmt_create, gmt_modified, like_count, content,
+        insert into comment (id, parent_id, type, commentator, gmt_create, gmt_modified, content,
                              comment_count)
-        values (#{id}, #{parentId}, #{type}, #{commentator}, #{gmtCreate}, #{gmtModified}, #{likeCount}, #{content},
+        values (#{id}, #{parentId}, #{type}, #{commentator}, #{gmtCreate}, #{gmtModified}, #{content},
                 #{commentCount})
     </insert>
 
-    <select id="selectCommentById" resultType="com.airconditioner.community.bean.Comment">
+    <select id="getById" resultType="com.airconditioner.community.entity.Comment">
         select *
         from comment
         where id = #{id}
     </select>
 
-    <select id="selectCommentList" resultType="com.airconditioner.community.bean.Comment">
+    <select id="listById" resultType="com.airconditioner.community.entity.Comment">
         select *
         from comment
         where parent_id = #{id}

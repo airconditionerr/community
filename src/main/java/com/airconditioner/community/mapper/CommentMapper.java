@@ -1,8 +1,9 @@
 package com.airconditioner.community.mapper;
 
-import com.airconditioner.community.bean.Comment;
+import com.airconditioner.community.entity.Comment;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -15,9 +16,9 @@ public interface CommentMapper {
 
     void insert(Comment comment);
 
-    Comment selectCommentById(Integer id);
+    Comment getById(BigInteger id);
 
-    List<Comment> selectCommentList(Integer id, Integer type);
+    List<Comment> listById(BigInteger id, Integer type);
 
     void incCommentCount(Comment comment);
 }

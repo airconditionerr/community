@@ -1,6 +1,6 @@
 package com.airconditioner.community.interceptor;
 
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.mapper.UserMapper;
 import com.airconditioner.community.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,10 +32,10 @@ public class SessionInterceptor implements HandlerInterceptor {
             for (Cookie cookie : cookies) {
                 if (cookie.getName().equals("token")) {
                     String token = cookie.getValue();
-                    User user = userMapper.selectUserByToken(token);
+                    User user = userMapper.getByToken(token);
                     if (user != null) {
                         request.getSession().setAttribute("user", user);
-                        Integer unreadCount = notificationService.unreadCount(user.getId());
+                        Integer unreadCount = notificationService.countUnreadByUserId(user.getId());
                         request.getSession().setAttribute("unreadCount", unreadCount);
                     }
                     break;

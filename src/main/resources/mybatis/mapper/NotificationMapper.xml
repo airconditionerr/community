@@ -6,25 +6,25 @@
     <insert id="insert">
 
 
-        insert into notification (id, notifier, receiver, outerid, type, gmt_create, status, notifier_name, outer_title)
-        values (#{id}, #{notifier}, #{receiver}, #{outerid}, #{type}, #{gmtCreate}, #{status}, #{notifierName},
+        insert into notification (id, notifier, receiver, outer_id, type, gmt_create, is_read, notifier_name, outer_title)
+        values (#{id}, #{notifier}, #{receiver}, #{outerId}, #{type}, #{gmtCreate}, #{isRead}, #{notifierName},
                 #{outerTitle})
     </insert>
 
-    <select id="countNotificationByUserId" resultType="Integer">
+    <select id="countByUserId" resultType="Integer">
         select count(*)
         from notification
         where receiver = #{userId}
     </select>
 
-    <select id="countUnreadNotificationByUserId" resultType="Integer">
+    <select id="countUnreadByUserId" resultType="Integer">
         select count(*)
         from notification
         where receiver = #{userId}
-          and status = #{status}
+          and is_read = #{isRead}
     </select>
 
-    <select id="selectNotificationByUserId" resultType="com.airconditioner.community.bean.Notification">
+    <select id="getByUserId" resultType="com.airconditioner.community.entity.Notification">
         select *
         from notification
         where receiver = #{userId}
@@ -34,15 +34,15 @@
 
     </select>
 
-    <select id="selectNotificationById" resultType="com.airconditioner.community.bean.Notification">
+    <select id="getById" resultType="com.airconditioner.community.entity.Notification">
         select *
         from notification
         where id = #{id}
     </select>
 
-    <update id="updateStatusById">
+    <update id="updateIsReadById">
         update notification
-        set status = #{status}
+        set is_read = #{isRead}
         where id = #{id}
     </update>
 </mapper>

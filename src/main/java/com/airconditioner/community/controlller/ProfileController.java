@@ -1,6 +1,6 @@
 package com.airconditioner.community.controlller;
 
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.service.NotificationService;
 import com.airconditioner.community.service.QuestionService;
@@ -26,12 +26,21 @@ public class ProfileController {
     @Autowired
     private NotificationService notificationService;
 
+    /**
+     * 跳转到 profile
+     * @param action    ("questions" || "replies")
+     * @param session   session
+     * @param model model
+     * @param page  分页页码
+     * @param size  分页页面大小
+     * @return
+     */
     @GetMapping("/profile/{action}")
     public String profile(@PathVariable("action") String action,
                           HttpSession session,
                           Model model,
                           @RequestParam(name = "page", defaultValue = "1") Integer page,
-                          @RequestParam(name = "size", defaultValue = "5") Integer size) {
+                          @RequestParam(name = "size", defaultValue = "10") Integer size) {
         User user = (User) session.getAttribute("user");
         if (user == null) {
             return "redirect:/";
@@ -40,12 +49,12 @@ public class ProfileController {
         if ("questions".equals(action)) {
             model.addAttribute("section", "questions");
             model.addAttribute("sectionName", "我的提问");
-            PaginationDTO paginationDTO = questionService.getQuestionList(user.getId(), page, size);
+            PaginationDTO paginationDTO = questionService.listByUserId(user.getId(), page, size);
             model.addAttribute("paginationDTO", paginationDTO);
         } else if ("replies".equals(action)) {
 
-            PaginationDTO paginationDTO = notificationService.list(user.getId(), page, size);
-            Integer unreadCount = notificationService.unreadCount(user.getId());
+            PaginationDTO paginationDTO = notificationService.listByUserId(user.getId(), page, size);
+            Integer unreadCount = notificationService.countUnreadByUserId(user.getId());
             model.addAttribute("section", "replies");
             model.addAttribute("sectionName", "最新回复");
             model.addAttribute("paginationDTO", paginationDTO);

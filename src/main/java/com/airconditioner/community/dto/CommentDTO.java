@@ -1,6 +1,6 @@
 package com.airconditioner.community.dto;
 
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -1,7 +1,9 @@
 package com.airconditioner.community.mapper;
 
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.User;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.math.BigInteger;
 
 /**
  * @Author AirConditioner
@@ -9,13 +11,31 @@ import org.apache.ibatis.annotations.Mapper;
  **/
 @Mapper
 public interface UserMapper {
-    void insertByGithub(User user);
+    /**
+     * 新建用户
+     * @param user   (accountId, name, avatarUrl, token)
+     */
+    void insert(User user);
 
-    User selectUserByToken(String token);
+    User getByToken(String token);
 
-    User selectUserById(Integer id);
+    /**
+     * 根据 id 获取 单个 用户
+     * @param id
+     * @return
+     */
+    User getById(BigInteger id);
 
-    User selectUserByAccountId(String accountId);
+    /**
+     * 根据 accountId 获取 单个 用户
+     * @param accountId
+     * @return
+     */
+    User getByAccountId(String accountId);
 
-    void updateByGithub(User dbUser);
+    /**
+     * 更新用户
+     * @param dbUser    (accountId, name, avatarUrl, token)
+     */
+    void update(User dbUser);
 }

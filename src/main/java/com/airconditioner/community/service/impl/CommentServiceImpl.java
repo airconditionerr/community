@@ -1,9 +1,9 @@
 package com.airconditioner.community.service.impl;
 
-import com.airconditioner.community.bean.Comment;
-import com.airconditioner.community.bean.Notification;
-import com.airconditioner.community.bean.Question;
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.Comment;
+import com.airconditioner.community.entity.Notification;
+import com.airconditioner.community.entity.Question;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.CommentDTO;
 import com.airconditioner.community.enums.CommentTypeEnum;
 import com.airconditioner.community.enums.NotificationStatusEnum;
@@ -15,12 +15,12 @@ import com.airconditioner.community.mapper.NotificationMapper;
 import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.mapper.UserMapper;
 import com.airconditioner.community.service.CommentService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,10 +47,16 @@ public class CommentServiceImpl implements CommentService {
     @Autowired
     private NotificationMapper notificationMapper;
 
+    /**
+     * 创建评论
+     *
+     * @param comment     (parentId, content, type, gmtModified, gmtCreate, commentator)
+     * @param commentator ()
+     */
     @Override
     @Transactional
     public void insert(Comment comment, User commentator) {
-        if (comment.getParentId() == null || comment.getParentId() == 0) {
+        if (comment.getParentId() == null || comment.getParentId().equals(0)) {
             throw new CustomizeException(CustomizeErrorCode.TARGET_PARAM_NOT_FOUND);
         }
         if (comment.getType() == null || !CommentTypeEnum.isExist(comment.getType())) {
@@ -59,16 +65,15 @@ public class CommentServiceImpl implements CommentService {
 
         if (comment.getType().equals(CommentTypeEnum.COMMENT.getType())) {
             // 回复评论
-            Comment dbcoment = commentMapper.selectCommentById(comment.getParentId());
+            Comment dbcoment = commentMapper.getById(comment.getParentId());
             if (dbcoment == null) {
                 throw new CustomizeException(CustomizeErrorCode.COMMENT_NOT_FOUND);
             } else {
                 commentMapper.insert(comment);
 
 
-
                 // 回复问题
-                Question question = questionMapper.selectQuestionById(dbcoment.getParentId());
+                Question question = questionMapper.getById(dbcoment.getParentId());
                 if (question == null) {
                     throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
                 }
@@ -78,26 +83,22 @@ public class CommentServiceImpl implements CommentService {
                 commentMapper.incCommentCount(comment);
 
 
-
-
-
                 // 创建通知
                 createNotification(comment, dbcoment.getCommentator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT, question.getId());
             }
         } else {
             // 回复问题
-            Question question = questionMapper.selectQuestionById(comment.getParentId());
+            Question question = questionMapper.getById(comment.getParentId());
             if (question == null) {
                 throw new CustomizeException(CustomizeErrorCode.QUESTION_NOT_FOUND);
             }
             comment.setCommentCount(0);
             commentMapper.insert(comment);
-            questionMapper.incQuestionCommentCount(question);
-
+            questionMapper.incCommentCount(question);
 
 
             // 创建通知
-            createNotification(comment, question.getCreator(), commentator.getName(), question.getTitle(),NotificationTypeEnum.REPLY_QUESTION, question.getId());
+            createNotification(comment, question.getCreator(), commentator.getName(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION, question.getId());
 
 
         }
@@ -105,50 +106,58 @@ public class CommentServiceImpl implements CommentService {
 
     /**
      * 创建通知
+     *
      * @param comment
      * @param receiver
      * @param notificationTypeEnum
      */
     private void createNotification(Comment comment,
-                                    Integer receiver,
+                                    BigInteger receiver,
                                     String notifierName,
                                     String outerTitle,
                                     NotificationTypeEnum notificationTypeEnum,
-                                    Integer outerId) {
+                                    BigInteger outerId) {
         if (receiver.equals(comment.getCommentator())) {
             return;
         }
         Notification notification = new Notification();
         notification.setGmtCreate(new Timestamp(System.currentTimeMillis()));
         notification.setType(notificationTypeEnum.getType());
-        notification.setOuterid(outerId);
+        notification.setOuterId(outerId);
         notification.setNotifier(comment.getCommentator());
-        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setIsRead(NotificationStatusEnum.UNREAD.getStatus());
         notification.setReceiver(receiver);
         notification.setNotifierName(notifierName);
         notification.setOuterTitle(outerTitle);
         notificationMapper.insert(notification);
     }
 
+    /**
+     * 根据 id 获取 二级评论集合
+     *
+     * @param id
+     * @param type
+     * @return
+     */
     @Override
-    public List<CommentDTO> listByTargetId(Integer id, CommentTypeEnum type) {
+    public List<CommentDTO> listByTargetId(BigInteger id, CommentTypeEnum type) {
         // 获取评论列表
-        List<Comment> comments = commentMapper.selectCommentList(id, type.getType());
+        List<Comment> comments = commentMapper.listById(id, type.getType());
         // 评论列表判空
         if (comments.size() == 0) {
             return new ArrayList<>();
         }
         // 获取去重的评论人
-        Set<Integer> commentators = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
-        List<Integer> userIds = new ArrayList<>();
+        Set<BigInteger> commentators = comments.stream().map(comment -> comment.getCommentator()).collect(Collectors.toSet());
+        List<BigInteger> userIds = new ArrayList<>();
         userIds.addAll(commentators);
 
         // 获取评论人并转换为 Map
         List<User> users = new ArrayList<>();
-        for (Integer userId : userIds) {
-            users.add(userMapper.selectUserById(userId));
+        for (BigInteger userId : userIds) {
+            users.add(userMapper.getById(userId));
         }
-        Map<Integer, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
+        Map<BigInteger, User> userMap = users.stream().collect(Collectors.toMap(user -> user.getId(), user -> user));
 
         // 转换 comment 为 commentDTO
         List<CommentDTO> commentDTOS = comments.stream().map(comment -> {

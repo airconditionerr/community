@@ -1,19 +1,16 @@
 package com.airconditioner.community.controlller;
 
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.NotificationDTO;
-import com.airconditioner.community.dto.PaginationDTO;
 import com.airconditioner.community.enums.NotificationTypeEnum;
 import com.airconditioner.community.service.NotificationService;
-import com.airconditioner.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
 
 /**
  * @Author AirConditioner
@@ -25,8 +22,14 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
+    /**
+     * 已读通知
+     * @param id
+     * @param session
+     * @return
+     */
     @GetMapping("/notification/{id}")
-    public String profile(@PathVariable("id") Integer id,
+    public String read(@PathVariable("id") BigInteger id,
                           HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null) {

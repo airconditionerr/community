@@ -1,7 +1,7 @@
 package com.airconditioner.community.controlller;
 
-import com.airconditioner.community.bean.Comment;
-import com.airconditioner.community.bean.User;
+import com.airconditioner.community.entity.Comment;
+import com.airconditioner.community.entity.User;
 import com.airconditioner.community.dto.CommentCreateDTO;
 import com.airconditioner.community.dto.CommentDTO;
 import com.airconditioner.community.dto.ResultDTO;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -49,7 +50,6 @@ public class CommentController {
         comment.setGmtModified(new Timestamp(System.currentTimeMillis()));
         comment.setGmtCreate(new Timestamp(System.currentTimeMillis()));
         comment.setCommentator(user.getId());
-        comment.setLikeCount(0);
         commentService.insert(comment, user);
 
         return ResultDTO.okOf();
@@ -61,7 +61,7 @@ public class CommentController {
      * @return
      */
     @GetMapping("/comment/{id}")
-    public ResultDTO<List<CommentDTO>> comments(@PathVariable("id") Integer id){
+    public ResultDTO<List<CommentDTO>> comments(@PathVariable("id") BigInteger id){
         List<CommentDTO> commentDTOS = commentService.listByTargetId(id, CommentTypeEnum.COMMENT);
         return ResultDTO.okOf(commentDTOS);
     }

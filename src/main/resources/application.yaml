@@ -1,12 +1,15 @@
+# Server Properties
 server:
   port: 8888
 
+# GitHub OAuth Properties
 github:
   client:
     id: "07321f78eebe9dfe4011"
     secret: "01fff5af82bb4f688ce20138c5c0eee0a1713da8"
   redirect_uri: "http://localhost:8888/callback"
 
+# Spring Properties
 spring:
   datasource:
     url: "jdbc:mysql://localhost:3306/community"
@@ -18,10 +21,13 @@ spring:
       filter:
         enabled: true
 
+# Mybatis Properties
 mybatis:
   mapper-locations: classpath:mybatis/mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
+
+# Log Properties
 logging:
   level:
     root: info

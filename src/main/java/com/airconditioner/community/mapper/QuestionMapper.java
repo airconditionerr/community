@@ -1,9 +1,10 @@
 package com.airconditioner.community.mapper;
 
-import com.airconditioner.community.bean.Question;
+import com.airconditioner.community.entity.Question;
 import com.airconditioner.community.dto.QuestionQueryDTO;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -13,25 +14,25 @@ import java.util.List;
 @Mapper
 public interface QuestionMapper {
 
-    void insertQuestion(Question question);
-
-    List<Question> selectQuestionBySearch(QuestionQueryDTO questionQueryDTO);
-
-    Integer countQuestion();
-
-    List<Question> selectQuestionByUserId(Integer userId, Integer offset, Integer size);
-
-    Integer countQuestionByUserId(Integer userId);
-
-    Question selectQuestionById(Integer id);
+    void insert(Question question);
 
     int updateQuestion(Question question);
 
-    void incQuestionViewCount(Integer id);
+    List<Question> listBySearch(QuestionQueryDTO questionQueryDTO);
 
-    void incQuestionCommentCount(Question question);
+    List<Question> getByUserId(BigInteger userId, Integer offset, Integer size);
 
-    List<Question> selectQuestionRelated(Question question);
+    Integer countByUserId(BigInteger userId);
 
-    Integer countQuestionBySearch(QuestionQueryDTO questionQueryDTO);
+    Question getById(BigInteger id);
+
+
+
+    void incViewCount(BigInteger id);
+
+    void incCommentCount(Question question);
+
+    List<Question> listRelated(Question question);
+
+    Integer countBySearch(QuestionQueryDTO questionQueryDTO);
 }

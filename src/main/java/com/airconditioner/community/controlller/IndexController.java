@@ -17,12 +17,21 @@ public class IndexController {
     @Autowired
     private QuestionService questionService;
 
+    /**
+     * 跳转到 index
+     *
+     * @param model  model
+     * @param page   分页页码
+     * @param size   分页页面大小
+     * @param search 搜索内容
+     * @return
+     */
     @GetMapping("/")
     public String index(Model model,
                         @RequestParam(name = "page", defaultValue = "1") Integer page,
-                        @RequestParam(name = "size", defaultValue = "5") Integer size,
+                        @RequestParam(name = "size", defaultValue = "10") Integer size,
                         @RequestParam(name = "search", required = false) String search) {
-        PaginationDTO paginationDTO = questionService.getQuestionList(search, page, size);
+        PaginationDTO paginationDTO = questionService.listBySearch(search, page, size);
         model.addAttribute("paginationDTO", paginationDTO);
         model.addAttribute("search", search);
         return "index";
