@@ -10,7 +10,7 @@ import com.airconditioner.community.exception.CustomizeException;
 import com.airconditioner.community.mapper.QuestionMapper;
 import com.airconditioner.community.mapper.UserMapper;
 import com.airconditioner.community.service.QuestionService;
-import com.mysql.jdbc.StringUtils;
+import com.mysql.cj.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;

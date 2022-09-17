@@ -7,7 +7,7 @@ import com.airconditioner.community.dto.QuestionDTO;
 import com.airconditioner.community.exception.CustomizeErrorCode;
 import com.airconditioner.community.exception.CustomizeException;
 import com.airconditioner.community.service.QuestionService;
-import com.mysql.jdbc.StringUtils;
+import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

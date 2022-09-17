@@ -1,13 +1,11 @@
 package com.airconditioner.community.cache;
 
 import com.airconditioner.community.dto.TagDTO;
-import com.mysql.jdbc.StringUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * @Author AirConditioner
