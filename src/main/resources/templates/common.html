@@ -54,7 +54,7 @@
             <!-- right start (before login) -->
             <div class="col-md-3 text-end" th:if="${session.user == null}">
                 <a type="button" class="btn btn-outline-primary me-2"
-                   href="https://github.com/login/oauth/authorize?client_id=07321f78eebe9dfe4011&redirect_uri=http://localhost:8888/callback&scope=user">Login</a>
+                   th:href="@{https://github.com/login/oauth/authorize(client_id='07321f78eebe9dfe4011', redirect_uri= ${#httpServletRequest.getContextPath()}, scope= 'user')}">Login</a>
                 <button type="button" class="btn btn-primary">Sign-up</button>
             </div>
             <!-- right end (before login) -->
